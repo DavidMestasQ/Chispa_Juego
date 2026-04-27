@@ -5629,7 +5629,7 @@ let state = {
   intensity: 2,   // 2=Amigos, 3=Picante, 4=Salvaje(mix)
   currentPlayerIndex: 0,
   round: 1,
-  totalRounds: 5,
+  totalRounds: infinty,
   challengesDone: 0,
   maxChallenges: 0,
   usedChallenges: { truth:[], dare:[], trivia:[], never:[], who:[] },
@@ -6938,7 +6938,7 @@ function closeShotModal() {
 //  SPECIAL CARDS
 // ===================================================
 const SPECIAL_CARD_MODES = ['truth', 'trivia', 'who'];
-const SPECIAL_CARD_CHANCE = 0.25; // 25% per turn
+const SPECIAL_CARD_CHANCE = 0.20; // 20% per turn
 
 let specialRedirectChosen = null;
 
