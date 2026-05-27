@@ -2071,7 +2071,7 @@ let state = {
   totalRounds: Infinity,
   challengesDone: 0,
   maxChallenges: 0,
-  usedChallenges: { truth:[], dare:[], trivia:[], never:[], who:[] },
+  usedChallenges: { truth:[], trivia:[], never:[], who:[] },
   scores: {},
   fingerState: {},        // for never mode
   hotVote: null,
@@ -4598,7 +4598,7 @@ function impostorNextRound() {
 // ===================================================
 //  COVER FLOW CAROUSEL
 // ===================================================
-const CF_MODES = ['truth','dare','trivia','never','who','todi','vs','impostor'];
+const CF_MODES = ['truth','trivia','never','who','todi','vs','impostor'];
 let cfIndex = 0;
 let cfW = 0;        // active card width
 let cfH = 0;        // active card height
