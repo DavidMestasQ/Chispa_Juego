@@ -2,10 +2,12 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CHISPA — Juego de Retos</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -14,7 +16,7 @@
 <div id="screen-home" class="screen active">
   <canvas id="home-particles" style="position:absolute;inset:0;pointer-events:none;opacity:0.5"></canvas>
 
-  <div style="display:flex;flex-direction:column;align-items:center;gap:0;z-index:1;margin-top:auto">
+  <div class="home-top-block">
     <div class="home-spark">✦</div>
     <div class="logo">CHISPA</div>
     <div class="logo-sub">El juego que enciende la noche</div>
@@ -30,7 +32,7 @@
   </div>
 
   <div class="home-actions" style="z-index:1;margin-top:auto">
-    <button class="btn btn-primary home-btn-main" onclick="goTo('players')">
+    <button class="btn btn-primary home-btn-main" onclick="startNewGame()">
       <span style="font-size:20px">⚡</span> Nueva Partida
     </button>
     <button class="btn btn-secondary" id="btn-resume" style="display:none" onclick="resumeGame()">
@@ -81,19 +83,19 @@
         <div class="mode-desc">Preguntas comprometedoras: responde con la verdad o acepta el reto.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="dare" onclick="cfSelect(1)">
+    <div class="mode-card" data-mode="trivia" onclick="cfSelect(1)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
         <div class="mode-card-top">
           <div class="mode-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-          <div class="mode-card-tag" style="color:#ff2d6b">Pura acción</div>
+          <div class="mode-card-tag" style="color:#e4eb0a">Haber cuanto sabes</div>
         </div>
         <div class="mode-name">Trivia</div>
         <div class="mode-desc">Acierta para mandar a alguien a tomar, falla y tomas tú.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="never" onclick="cfSelect(3)">
+    <div class="mode-card" data-mode="never" onclick="cfSelect(2)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
@@ -105,7 +107,7 @@
         <div class="mode-desc">El clásico. Descubre los secretos del grupo.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="who" onclick="cfSelect(4)">
+    <div class="mode-card" data-mode="who" onclick="cfSelect(3)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
@@ -117,7 +119,7 @@
         <div class="mode-desc">¿Quién del grupo haría esto? Los votos no mienten.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="todi" onclick="cfSelect(5)">
+    <div class="mode-card" data-mode="todi" onclick="cfSelect(4)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
@@ -129,7 +131,7 @@
         <div class="mode-desc">T-O-D-I decide tu destino. Sin elección posible.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="vs" onclick="cfSelect(6)">
+    <div class="mode-card" data-mode="vs" onclick="cfSelect(5)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
@@ -141,7 +143,7 @@
         <div class="mode-desc">¿Quién entiende más al otro lado? Demuéstralo.</div>
       </div>
     </div>
-    <div class="mode-card" data-mode="impostor" onclick="cfSelect(7)">
+    <div class="mode-card" data-mode="impostor" onclick="cfSelect(6)">
       <div class="mode-card-bg"></div>
       <div class="mode-card-orb"></div>
       <div class="mode-card-inner">
@@ -165,7 +167,6 @@
     <div class="cf-dot" onclick="cfGoTo(4)"></div>
     <div class="cf-dot" onclick="cfGoTo(5)"></div>
     <div class="cf-dot" onclick="cfGoTo(6)"></div>
-    <div class="cf-dot" onclick="cfGoTo(7)"></div>
       </div>
       <button class="cf-btn" id="cf-next" onclick="cfNext()">&#8594;</button>
     </div>
@@ -386,7 +387,7 @@
   </div>
 
   <!-- reveal phase -->
-  <div id="who-reveal-phase" style="display:none;width:100%;display:none;flex-direction:column;align-items:center;gap:20px">
+  <div id="who-reveal-phase" style="display:none;width:100%;flex-direction:column;align-items:center;gap:20px">
     <div class="who-reveal-wrap">
       <div class="who-reveal-title">EL GRUPO DECIDIÓ</div>
       <div class="who-reveal-name" id="who-reveal-name">—</div>
@@ -545,8 +546,6 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
-<script src="script.js"></script>
-
 <!-- PLAYER CREATION MODAL -->
 <div class="player-modal-overlay" id="player-modal-overlay" onclick="closePlayerModal(event)">
   <div class="player-modal" onclick="event.stopPropagation()">
@@ -638,6 +637,8 @@
   </div>
 
 </div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
