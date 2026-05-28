@@ -2071,7 +2071,7 @@ let state = {
   totalRounds: Infinity,
   challengesDone: 0,
   maxChallenges: 0,
-  usedChallenges: { truth:[], trivia:[], never:[], who:[] },
+  usedChallenges: { truth:[],dare:[], trivia:[], never:[], who:[] },
   scores: {},
   fingerState: {},        // for never mode
   hotVote: null,
@@ -2135,39 +2135,10 @@ function goTo(id) {
 //  o finalizadas) persistan al querer empezar de cero.
 // ===================================================
 function startNewGame() {
-  // Limpiar jugadores y todo el estado de juego
   state.players = [];
-  state.currentPlayerIndex = 0;
-  state.round = 1;
   state.totalRounds = Infinity;
-  state.challengesDone = 0;
-  state.maxChallenges = 0;
-  state.usedChallenges = { truth:[], dare:[], trivia:[], never:[], who:[] };
-  state.scores = {};
-  state.shots = {};
-  state.fingerState = {};
-  state.currentTrivia = null;
-  state.triviaAnswered = false;
-  state.triviaPickChosen = null;
-  state.specialCard = null;
-  state.specialUsedIds = [];
-  state.doubleActive = false;
-  state.redirectActive = false;
-  state.redirectTarget = null;
-  state.vsScoreM = 0;
-  state.vsScoreF = 0;
-  state.vsUsedM = [];
-  state.vsUsedF = [];
-  state.impostorWord = null;
-  state.impostorImpostors = [];
-  state.impostorHints = [];
-  state.impostorVotes = {};
-  state.impostorUsedWords = [];
-
-  // Renderizar lista de jugadores vacía
+  resetGameState(); // hace todo el resto
   renderPlayers();
-
-  // Ir a la pantalla de jugadores
   goTo('players');
 }
 
@@ -2299,13 +2270,12 @@ function confirmAddPlayer() {
     playerModalState.emoji = pool[Math.floor(Math.random() * pool.length)];
   }
 
-  state.players.push({
-    name,
-    gender: playerModalState.gender,
-    emoji: playerModalState.emoji,
-    score: 0,
-  });
+  state.players.push({name,gender: playerModalState.gender,emoji: playerModalState.emoji,score: 0,});
   document.getElementById('player-modal-overlay').classList.remove('show');
+    console.log(
+    'PLAYERS AGREGADOS:',
+    JSON.parse(JSON.stringify(state.players))
+  );
 
   // if adding mid-game, update game state too
   if (state._addingMidGame) {
@@ -2619,26 +2589,11 @@ function menuAddPlayer() {
   openPlayerModal();
 }
 
-// ===================================================
-//  OPEN MENU — inject player list
-// ===================================================
-
-// ===================================================
-//  GAME START
-// ===================================================
-// ===================================================
-//  INICIAR PARTIDA
-//  Resetea todo el estado del juego y arranca el modo
-//  seleccionado. Calcula maxChallenges = jugadores × rondas.
-//  Redirige al modo correcto: normal, VS, TODI o Impostor.
-// ===================================================
-function startGame() {
-  if (!state.mode) return showToast('Elige un modo de juego');
+function resetGameState() {
   state.currentPlayerIndex = 0;
   state.round = 1;
   state.challengesDone = 0;
-  state.maxChallenges = state.players.length * state.totalRounds;
-  state.usedChallenges = { truth:[], dare:[], trivia:[], never:[], who:[] };
+  state.usedChallenges = { truth: [],dare:[], trivia: [], never: [], who: [] };
   state.scores = {};
   state.players.forEach(p => { p.score = 0; });
   state.fingerState = {};
@@ -2651,7 +2606,34 @@ function startGame() {
   state.doubleActive = false;
   state.redirectActive = false;
   state.redirectTarget = null;
-  state.players.forEach(p => { state.fingerState[p.name] = true; state.shots[p.name] = 0; });
+  state.vsScoreM = 0;
+  state.vsScoreF = 0;
+  state.vsUsedM = [];
+  state.vsUsedF = [];
+  state.impostorWord = null;
+  state.impostorImpostors = [];
+  state.impostorHints = [];
+  state.impostorVotes = {};
+  state.impostorUsedWords = [];
+  state.players.forEach(p => {
+    state.fingerState[p.name] = true;
+    state.shots[p.name] = 0;
+  });
+}
+
+// ===================================================
+//  GAME START
+// ===================================================
+// ===================================================
+//  INICIAR PARTIDA
+//  Resetea todo el estado del juego y arranca el modo
+//  seleccionado. Calcula maxChallenges = jugadores × rondas.
+//  Redirige al modo correcto: normal, VS, TODI o Impostor.
+// ===================================================
+function startGame() {
+  if (!state.mode) return showToast('Elige un modo de juego');
+  resetGameState(); // ← hace todo el reset
+  state.maxChallenges = state.players.length * state.totalRounds;
 
   if (state.mode === 'todi') {
     startTodi();
@@ -2697,8 +2679,7 @@ function updateStrip() {
 // ===================================================
 //  CHALLENGE ENGINE
 // ===================================================
-function pickChallenge(type) {
-  /*
+/*
    * MOTOR DE SELECCIÓN DE PREGUNTAS
    * ─────────────────────────────────
    * El banco de datos tiene 2 niveles por modo:
@@ -2715,31 +2696,21 @@ function pickChallenge(type) {
    *   Cuando se agota el pool disponible, se resetea y vuelve a usarlas todas.
    *   Esto garantiza que nunca se repita una pregunta hasta haberlas visto todas.
    */
-
+function pickChallenge(type) {
   // Seleccionar el pool según intensidad
   let pool;
   if (state.intensity === 4) {
-    // Salvaje: combina Amigos (nivel 1) + Picante (nivel 2) en un solo pool
-    const p1 = CHALLENGES[type][1] || [];
-    const p2 = CHALLENGES[type][2] || [];
-    pool = [...p1, ...p2];
+    pool = [...(CHALLENGES[type][1] || []), ...(CHALLENGES[type][2] || [])];
   } else if (state.intensity === 3) {
-    // Picante: solo nivel 2
     pool = CHALLENGES[type][2] || CHALLENGES[type][1];
   } else {
-    // Amigos (default): solo nivel 1
     pool = CHALLENGES[type][1] || CHALLENGES[type][2];
   }
 
-  // Historial de preguntas ya usadas para este tipo
   const used = state.usedChallenges[type];
-
-  // Jugador activo y su género
   const currentPlayer = state.players[state.currentPlayerIndex];
-  const currentGender = currentPlayer.gender; // 'm', 'f', 'o', o null
+  const currentGender = currentPlayer.gender;
 
-  // Determina qué jugadores son del género opuesto al jugador activo
-  // Solo aplica para m↔f. Género 'o' o sin género no tiene opuesto definido.
   function getOppositeGenderTarget() {
     if (currentGender === 'm') return state.players.filter((p, i) => i !== state.currentPlayerIndex && p.gender === 'f');
     if (currentGender === 'f') return state.players.filter((p, i) => i !== state.currentPlayerIndex && p.gender === 'm');
@@ -2749,35 +2720,37 @@ function pickChallenge(type) {
   const oppositeTargets = getOppositeGenderTarget();
   const hasOpposite = oppositeTargets.length > 0;
 
-  // Filtrar preguntas disponibles (no usadas aún)
-  // También excluye preguntas que requieren pareja de género opuesto si no hay ninguna
-  let available = pool.filter((_, i) => {
-    if (used.includes(i)) return false; // ya fue mostrada
+  // Filtrar ÍNDICES disponibles (no usar .indexOf con objetos)
+  let availableIdxs = pool.map((item, i) => i).filter(i => {
+    if (used.includes(i)) return false;
     if (typeof pool[i] === 'string' && pool[i].includes('{player_opposite_gender}') && !hasOpposite) return false;
     return true;
   });
 
-  // Si ya se usaron todas → resetear historial y volver a usar el pool completo
-  if (available.length === 0) {
+  // Si ya se usaron todos → resetear historial
+  if (availableIdxs.length === 0) {
     state.usedChallenges[type] = [];
-    available = pool.filter(item => {
-      if (typeof item === 'string' && item.includes('{player_opposite_gender}') && !hasOpposite) return false;
+    availableIdxs = pool.map((item, i) => i).filter(i => {
+      if (typeof pool[i] === 'string' && pool[i].includes('{player_opposite_gender}') && !hasOpposite) return false;
       return true;
     });
   }
 
-  // Elegir una pregunta al azar de las disponibles y registrarla como usada
-  const poolIdx = pool.indexOf(available[Math.floor(Math.random() * available.length)]);
+  // Elegir índice al azar y registrarlo
+  const poolIdx = availableIdxs[Math.floor(Math.random() * availableIdxs.length)];
   state.usedChallenges[type].push(poolIdx);
-  let text = pool[poolIdx];
 
-  // Reemplazar {player} por el nombre de otro jugador aleatorio del grupo
+  const chosen = pool[poolIdx];
+
+  // Si es objeto (trivia) → devolver sin tocar
+  if (typeof chosen !== 'string') return chosen;
+
+  // Si es string → aplicar reemplazos de nombres
+  let text = chosen;
   if (text.includes('{player}')) {
     const others = state.players.filter((_, i) => i !== state.currentPlayerIndex);
-    if (others.length > 0) text = text.replace('{player}', others[Math.floor(Math.random()*others.length)].name);
+    if (others.length > 0) text = text.replace('{player}', others[Math.floor(Math.random() * others.length)].name);
   }
-
-  // Reemplazar {player_opposite_gender} por un jugador del sexo opuesto
   if (text.includes('{player_opposite_gender}')) {
     const target = oppositeTargets[Math.floor(Math.random() * oppositeTargets.length)];
     text = text.replace('{player_opposite_gender}', target.name);
@@ -2785,7 +2758,6 @@ function pickChallenge(type) {
 
   return text;
 }
-
 // ===================================================
 //  DIBUJAR SIGUIENTE CARTA
 //  Punto de entrada de cada turno. Antes de mostrar la
@@ -2812,7 +2784,6 @@ function drawChallenge() {
 //  CONTENIDO DE LA CARTA (llamada por drawChallenge)
 //  Según state.mode, decide qué tipo de carta mostrar:
 //    truth   → alterna Verdad / Reto
-//    dare    → siempre Reto
 //    trivia  → pregunta con 4 opciones A-D
 //    never   → afirmación "Yo nunca..."
 //    who     → pregunta de votación grupal
@@ -2842,42 +2813,34 @@ function _drawChallengeContent() {
     document.getElementById('game-mode-badge').style.color = isTruth ? 'var(--truth-color)' : 'var(--dare-color)';
     document.getElementById('game-mode-badge').textContent = isTruth ? 'VERDAD O RETO' : 'VERDAD O RETO';
 
-  } else if (state.mode === 'dare') {
-    // dare only
-    cardClass = 'card-dare';
-    label = 'RETO';
-    text = pickChallenge('dare');
-    document.getElementById('game-mode-badge').style.color = 'var(--dare-color)';
-    document.getElementById('game-mode-badge').textContent = 'SOLO RETOS';
-
   } else if (state.mode === 'trivia') {
-    cardClass = 'card-trivia';
-    label = 'TRIVIA 🧠';
-    document.getElementById('game-mode-badge').style.color = 'var(--vote-color)';
-    document.getElementById('game-mode-badge').textContent = 'TRIVIA';
+  cardClass = 'card-trivia';
+  label = 'TRIVIA 🧠';
+  document.getElementById('game-mode-badge').style.color = 'var(--vote-color)';
+  document.getElementById('game-mode-badge').textContent = 'TRIVIA';
 
-    // pick a trivia question object
-    const pool = CHALLENGES.trivia[state.intensity] || CHALLENGES.trivia[2];
-    const used = state.usedChallenges.trivia;
-    let available = pool.filter((_, i) => !used.includes(i));
-    if (available.length === 0) { state.usedChallenges.trivia = []; available = pool; }
-    const poolIdx = pool.indexOf(available[Math.floor(Math.random() * available.length)]);
-    state.usedChallenges.trivia.push(poolIdx);
-    const trivia = pool[poolIdx];
-    state.currentTrivia = trivia;
-    state.triviaAnswered = false;
+  const trivia = pickChallenge('trivia'); // ← ahora usa el motor unificado
+  state.currentTrivia = trivia;
+  state.triviaAnswered = false;
+  text = trivia.q;
 
-    text = trivia.q;
-    const letters = ['A','B','C','D'];
-    let optsHtml = '<div class="trivia-options">';
-    trivia.opts.forEach((opt, i) => {
-      optsHtml += `<div class="trivia-opt" id="trivia-opt-${i}" onclick="answerTrivia(${i})">
-        <span class="trivia-opt-letter">${letters[i]}</span>
-        <span class="trivia-opt-text">${opt}</span>
-      </div>`;
+  const letters = ['A', 'B', 'C', 'D'];
+  let optsHtml = '<div class="trivia-options">';
+  trivia.opts.forEach((opt, i) => {
+    optsHtml += `<button class="trivia-opt" id="trivia-opt-${i}" type="button" data-index="${i}">
+      <span class="trivia-opt-letter">${letters[i]}</span>
+      <span class="trivia-opt-text">${opt}</span>
+    </button>`;
+  });
+  optsHtml += '</div>';
+  interactionEl.innerHTML = optsHtml;
+
+  document.querySelectorAll('.trivia-opt').forEach(btn => {
+    btn.addEventListener('click', function () {
+      if (state.triviaAnswered) return;
+      answerTrivia(Number(this.dataset.index));
     });
-    optsHtml += '</div>';
-    interactionEl.innerHTML = optsHtml;
+  });
 
   } else if (state.mode === 'never') {
     cardClass = 'card-never';
@@ -3130,9 +3093,7 @@ function showWhoReveal() {
   // switch phases
   document.getElementById('who-voter-phase').style.display = 'none';
   const revealPhase = document.getElementById('who-reveal-phase');
-  revealPhase.style.display = 'flex';
-  revealPhase.style.flexDirection = 'column';
-  revealPhase.style.alignItems = 'center';
+  revealPhase.classList.add('visible');
 
   if (isFullTie) {
     document.getElementById('who-reveal-name').textContent = '¡TODOS!';
@@ -3203,13 +3164,10 @@ function whoRevealShot() {
 }
 
 function toggleFinger(name, el) {
-  if (el.classList.contains('down')) {
-    el.classList.remove('down');
-    return;
-  }
+  if (el.classList.contains('down')) return; // ya bajó, ignorar tap
   el.classList.add('down');
+  el.style.pointerEvents = 'none'; // bloquear nuevos taps
   sfxFinger();
-  // shot fires but game doesn't auto-advance — player presses "Siguiente turno" when ready
   showShot(name, 'Sí lo ha hecho 😬', null, null);
 }
 
@@ -3246,7 +3204,7 @@ function resolveAndNext() {
   };
 
   // dare mode: confirm completion with custom dialog
-  const isDare = state.mode === 'dare' || (state.mode === 'truth' && state.challengesDone % 2 !== 0);
+  const isDare = state.mode === 'truth' && state.challengesDone % 2 !== 0;
   if (isDare) {
     showConfirmDialog(p.name, proceed);
     return;
@@ -3575,7 +3533,7 @@ function closeMenu() {
 function switchMode(mode) {
   state.mode = mode;
   state.challengesDone = 0;
-  state.usedChallenges = { truth:[], dare:[], trivia:[], never:[], who:[] };
+  state.usedChallenges = { truth:[],dare:[], trivia:[], never:[], who:[] };
   state.currentPlayerIndex = 0;
   state.round = 1;
   state.fingerState = {};
@@ -4054,7 +4012,7 @@ function playAgain() {
   state.challengesDone = 0;
   state.round = 1;
   state.currentPlayerIndex = 0;
-  state.usedChallenges = { truth:[], dare:[], trivia:[], never:[], who:[] };
+  state.usedChallenges = { truth:[],dare:[], trivia:[], never:[], who:[] };
   state.vsScoreM = 0; state.vsScoreF = 0;
   state.vsUsedM = []; state.vsUsedF = [];
   state.currentTrivia = null;
@@ -4159,8 +4117,27 @@ function initParticles() {
 //  Usa el banco IMPOSTOR_WORDS (82 palabras, 7 categorías).
 // ===================================================
 function startImpostor() {
+
+  console.log(
+    'ANTES DE IMPOSTOR:',
+    JSON.parse(JSON.stringify(state.players))
+  );
+
+  state.impostorCurrentIndex = 0;
+
   goTo('impostor');
+
+  console.log(
+    'DESPUÉS DE goTo:',
+    JSON.parse(JSON.stringify(state.players))
+  );
+
   impostorNewRound();
+
+  console.log(
+    'DESPUÉS DE NEW ROUND:',
+    JSON.parse(JSON.stringify(state.players))
+  );
 }
 
 function impostorPickWord() {
@@ -4173,6 +4150,10 @@ function impostorPickWord() {
 }
 
 function impostorNewRound() {
+  console.log(
+  'ENTRANDO A impostorNewRound:',
+  JSON.parse(JSON.stringify(state.players))
+);
   const n = state.players.length;
 
   // pick word
@@ -4211,6 +4192,18 @@ function impostorNewRound() {
   // hide current hint slot until roles are revealed
   document.getElementById('impostor-current-hint-wrap').style.display = 'none';
   document.getElementById('impostor-word-banner').style.display = 'none';
+
+  // inicializar índice actual
+  state.impostorCurrentIndex = 0;
+
+  // guardar índice en overlay
+  const overlay =
+    document.getElementById(
+      'impostor-role-overlay'
+    );
+
+  overlay.dataset.revealIdx =
+    state.impostorCurrentIndex;
 
   // start role reveal sequence
   impostorShowRoleFor(0);
@@ -4265,7 +4258,16 @@ function impostorRevealRole() {
   const overlay  = document.getElementById('impostor-role-overlay');
   const callCard = document.getElementById('impostor-call-card');
   const roleCard = document.getElementById('impostor-role-card');
-  const idx      = parseInt(overlay.dataset.revealIdx);
+
+  let idx      = parseInt(overlay.dataset.revealIdx);
+  if (isNaN(idx)) {
+
+  idx = state.impostorCurrentIndex || 0;
+
+  overlay.dataset.revealIdx = idx;
+  }
+  console.log('Reveal IDX:', idx);
+  console.log('Players:', state.players);
 
   const card    = document.getElementById('impostor-role-card');
   const iconEl  = document.getElementById('impostor-role-icon');
@@ -4275,23 +4277,50 @@ function impostorRevealRole() {
   const allyEl  = document.getElementById('impostor-ally-notice');
   const btn     = document.getElementById('impostor-role-btn');
 
-  const player       = state.players[idx];
   const isImpostor   = state.impostorImpostors.includes(idx);
   const numImpostors = state.impostorImpostors.length;
 
   // Nombre del cómplice si hay 2 impostores
-  let allyName = null;
-  if (isImpostor && numImpostors === 2) {
-    const allyIdx = state.impostorImpostors.find(i => i !== idx);
-    allyName = state.players[allyIdx].name;
-  }
+ let allyName = null;
+
+ if (isImpostor && numImpostors === 2) {
+
+   const allyIdx =
+     state.impostorImpostors.find(
+       i => i !== idx
+     );
+
+   // Validar índice y jugador
+   if (
+     allyIdx !== undefined &&
+     state.players[allyIdx]
+   ) {
+
+     allyName =
+       state.players[allyIdx].name;
+   }
+ }
 
   // Limpiar clases anteriores
   card.className    = 'impostor-role-card';
   labelEl.className = 'impostor-role-label';
   wordEl.innerHTML  = '';
 
+  const player = state.players[idx];
+  if (!player) {
+      console.error('Jugador inválido en impostorRevealRole');
+      return;
+  } 
+
   whoEl.textContent = player.name;
+  if (!state.impostorWord) {
+
+    console.error(
+      'impostorWord es null'
+    );
+
+    return;
+  }
 
   if (isImpostor) {
     card.classList.add('is-impostor');
@@ -4311,7 +4340,7 @@ function impostorRevealRole() {
     wordEl.innerHTML = 'La palabra secreta es:';
     const wordReveal = document.createElement('div');
     wordReveal.className  = 'impostor-word-reveal';
-    wordReveal.textContent = state.impostorWord.word;
+    wordReveal.textContent = state.impostorWord?.word || '???';
     wordEl.appendChild(document.createElement('br'));
     wordEl.appendChild(wordReveal);
     allyEl.style.display = 'none';
@@ -4336,6 +4365,8 @@ function impostorRoleNext() {
    */
   const overlay = document.getElementById('impostor-role-overlay');
   const idx     = parseInt(overlay.dataset.revealIdx);
+  console.log('Reveal IDX:', idx);
+  console.log('Players:', state.players);
 
   // Limpiar contenido del rol para que no se vea durante el llamado al siguiente
   document.getElementById('impostor-role-word').innerHTML = '';
@@ -4600,7 +4631,7 @@ function impostorNextRound() {
 // ===================================================
 const CF_MODES = ['truth','trivia','never','who','todi','vs','impostor'];
 let cfIndex = 0;
-let cfW = 0;        // active card width
+let cfW = 0;        // active card width 
 let cfH = 0;        // active card height
 let cfTouchX = 0;
 let cfDragX  = 0;
@@ -4608,7 +4639,7 @@ let cfDragging = false;
 
 // Layout constants
 const CF_SIDE_SCALE  = 0.72;   // side cards scale
-const CF_SIDE_OFFSET = 0.62;   // how far side cards peek in (fraction of active width)
+const CF_SIDE_OFFSET = 0.55;   // how far side cards peek in (fraction of active width)
 const CF_SIDE_OPACITY = 0.45;
 const CF_FAR_OPACITY  = 0.18;
 const CF_FAR_SCALE    = 0.52;
@@ -4623,7 +4654,7 @@ function cfLayout() {
   const isDesktop = window.innerWidth >= 900;
 
   // active card dimensions
-  cfW = isDesktop ? Math.min(420, vw * 0.58) : Math.min(vw * 0.72, 290);
+  cfW = isDesktop ? Math.min(420, vw * 0.58) : Math.min(vw * 0.64, 260);
   cfH = isDesktop ? 240 : Math.min(210, vh * 0.27);
 
   // stage height = active card height
