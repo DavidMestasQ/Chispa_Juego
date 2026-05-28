@@ -46,27 +46,33 @@
   }
 
   /* ---- SCREENS ---- */
-  .screen {
-    position: absolute;
+.screen {
+    position: fixed;
     inset: 0;
+    width: 100%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow-y: auto;
-    padding: 24px 20px 40px;
+    padding: 32px 40px 56px;
     opacity: 0;
-    transform: translateY(20px);
     pointer-events: none;
-    transition: opacity 0.35s ease, transform 0.35s ease;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
     z-index: 0;
+    background: var(--bg);
+    box-sizing: border-box;
   }
+
   .screen > * {
     box-sizing: border-box;
   }
+
   .screen.active {
     opacity: 1;
-    transform: translateY(0);
-    pointer-events: all;
+    pointer-events: auto;
+    visibility: visible;
     z-index: 10;
   }
 
@@ -145,22 +151,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #ff2d6b, #b44fff) !important;
-    box-shadow: 0 0 32px rgba(255,45,107,0.35), 0 0 60px rgba(180,79,255,0.2) !important;
+    background: linear-gradient(135deg, #ff2d6b, #b44fff);
+    box-shadow: 0 0 32px rgba(255,45,107,0.35), 0 0 60px rgba(180,79,255,0.2);
     animation: btnGlow 3s ease infinite alternate;
   }
   @keyframes btnGlow {
     from { box-shadow: 0 0 24px rgba(255,45,107,0.3), 0 0 48px rgba(180,79,255,0.15); }
     to   { box-shadow: 0 0 40px rgba(255,45,107,0.5), 0 0 80px rgba(180,79,255,0.3); }
-  }
-  .logo-sub {
-    font-weight: 500;
-    letter-spacing: 5px;
-    text-transform: uppercase;
-    color: var(--text-dim);
-    text-align: center;
-    margin-top: 4px;
-    margin-bottom: 48px;
   }
 
   .home-actions {
@@ -196,11 +193,7 @@
     /* todos los hijos pasan los eventos al botón padre */
     pointer-events: all;
   }
-  /* el texto y cualquier hijo interno NO interceptan eventos —
-     los delegan al botón que los contiene */
- .btn {
-    cursor: pointer;
-  }
+
   .btn:active { transform: scale(0.96); }
 
   .btn-primary {
@@ -555,11 +548,6 @@
   .mode-card[data-mode="truth"]   .mode-icon-wrap svg { color:#00e5ff; }
   .mode-card[data-mode="truth"].selected   { border-color:#00e5ff55; box-shadow:0 0 22px rgba(0,229,255,0.18); }
 
-  .mode-card[data-mode="dare"]    .mode-card-bg  { background:linear-gradient(135deg,#ff2d6b,#ff7c2d); }
-  .mode-card[data-mode="dare"]    .mode-card-orb { background:#ff2d6b; }
-  .mode-card[data-mode="dare"]    .mode-icon-wrap svg { color:#ff2d6b; }
-  .mode-card[data-mode="dare"].selected    { border-color:#ff2d6b55; box-shadow:0 0 22px rgba(255,45,107,0.18); }
-
   .mode-card[data-mode="trivia"]  .mode-card-bg  { background:linear-gradient(135deg,#ffd600,#ff9800); }
   .mode-card[data-mode="trivia"]  .mode-card-orb { background:#ffd600; }
   .mode-card[data-mode="trivia"]  .mode-icon-wrap svg { color:#ffd600; }
@@ -689,12 +677,14 @@
     z-index: 5000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.25s;
+    visibility: hidden;
+    transition: opacity 0.25s, visibility 0.25s;
     backdrop-filter: blur(6px);
   }
   .shot-overlay.show {
     opacity: 1;
     pointer-events: all;
+    visibility: visible;
   }
   .shot-modal {
     background: linear-gradient(145deg, #1e0a0a, #2e0f0f);
@@ -959,10 +949,11 @@
     width: 100%;
     flex: 1;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     perspective: 900px;
     padding: 10px 0;
+    overflow-y: auto;
   }
 
   .challenge-card {
@@ -974,18 +965,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 16px;
     text-align: center;
     position: relative;
-    transform-style: preserve-3d;
     animation: cardIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
   }
 
   @keyframes cardIn {
-    from { opacity:0; transform: scale(0.7) rotateY(-25deg); }
-    to   { opacity:1; transform: scale(1) rotateY(0deg); }
+    from { opacity: 0; transform: scale(0.88) translateY(10px); }
+    to   { opacity: 1; transform: scale(1) translateY(0); }
   }
 
   .card-type-label {
@@ -1015,35 +1005,94 @@
   .card-dare   { background: linear-gradient(145deg, #2e0010, #400018); color: var(--dare-color);  border: 1px solid rgba(255,45,107,0.2); }
   .card-trivia    { background: linear-gradient(145deg, #1e1a00, #2e2800); color: var(--vote-color);  border: 1px solid rgba(255,214,0,0.2); }
 
-  /* trivia options */
-  .trivia-options {
+  .trivia-opt * {
+    pointer-events: none;
+}
+
+ /* trivia options */
+.trivia-options {
     display: flex;
     flex-direction: column;
-    gap: 7px;
+
+    gap: 12px;
+
     width: 100%;
-    margin-top: 10px;
-  }
-  .trivia-opt {
+
+    margin-top: 16px;
+
+    position: relative;
+
+    z-index: 50;
+}
+
+.trivia-opt {
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: rgba(255,214,0,0.05);
-    border: 1.5px solid rgba(255,214,0,0.15);
+    gap: 14px;
+    width: 100%;
+    min-height: 68px;
+    padding: 16px 18px;
+    background: rgba(255,214,0,0.06);
+    border: 1.5px solid rgba(255,214,0,0.18);
     border-radius: var(--radius-sm);
-    padding: 10px 14px;
-    cursor: pointer;
-    transition: all 0.18s;
-    font-size: 13px;
-    font-weight: 500;
     color: var(--text);
-  }
-  .trivia-opt:active { transform: scale(0.98); }
-  .trivia-opt.chosen  { border-color: var(--vote-color); background: rgba(255,214,0,0.12); color: var(--vote-color); }
-  .trivia-opt.correct { border-color: #00e676; background: rgba(0,230,118,0.12); color: #00e676; pointer-events:none; }
-  .trivia-opt.wrong   { border-color: var(--neon-pink); background: rgba(255,45,107,0.1); color: var(--neon-pink); pointer-events:none; }
-  .trivia-opt.disabled { opacity: 0.35; pointer-events: none; }
-  .trivia-opt-letter  { font-family: 'Bebas Neue', sans-serif; font-size: 16px; width: 20px; flex-shrink: 0; opacity: 0.7; }
-  .trivia-opt-text    { flex: 1; }
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    position: relative;
+    z-index: 50;
+    pointer-events: auto;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    transition:
+        background-color 0.18s ease,
+        border-color 0.18s ease,
+        color 0.18s ease;
+    appearance: none;
+    -webkit-appearance: none;
+    -webkit-touch-callout: none;
+}
+
+/* ELIMINAR transform */
+.trivia-opt:active {
+    opacity: 0.92;
+}
+
+.trivia-opt.chosen  {
+    border-color: var(--vote-color);
+    background: rgba(255,214,0,0.12);
+    color: var(--vote-color);
+}
+
+.trivia-opt.correct {
+    border-color: #00e676;
+    background: rgba(0,230,118,0.12);
+    color: #00e676;
+    pointer-events: none;
+}
+
+.trivia-opt.wrong {
+    border-color: var(--neon-pink);
+    background: rgba(255,45,107,0.1);
+    color: var(--neon-pink);
+    pointer-events: none;
+}
+
+.trivia-opt.disabled {
+    opacity: 0.35;
+    pointer-events: none;
+}
+
+.trivia-opt-letter {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20px;
+    width: 28px;
+    flex-shrink: 0;
+    opacity: 0.8;
+}
+
+.trivia-opt-text {flex: 1; text-align: left;line-height: 1.35;}
   .card-never  { background: linear-gradient(145deg, #1a0028, #220032); color: var(--never-color); border: 1px solid rgba(180,79,255,0.2); }
   .card-who    { background: linear-gradient(145deg, #2a1200, #3a1800); color: var(--who-color);   border: 1px solid rgba(255,124,45,0.2); }
 
@@ -1212,10 +1261,15 @@
     z-index: 4000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
     backdrop-filter: blur(4px);
   }
-  .menu-overlay.show { opacity: 1; pointer-events: all; }
+  .menu-overlay.show { 
+  opacity: 1; 
+  pointer-events: all; 
+  visibility: visible;
+  }
 
   .menu-drawer {
     position: fixed;
@@ -1878,21 +1932,9 @@
       position: fixed; inset: 0;
       width: 100%; height: 100%;
       border-radius: 0; border: none; box-shadow: none;
-      overflow-y: auto; display: none; z-index: 1;
+      overflow-y: auto; z-index: 1;
     }
     .screen.active { display: flex; }
-
-    /* ── Overlays stay above screens ── */
-    .shot-overlay,
-    .menu-overlay,
-    .who-voting-overlay,
-    .special-card-overlay,
-    .impostor-role-overlay,
-    .trivia-pick-overlay { position: fixed; border-radius: 0; }
-
-    .menu-drawer { position: fixed; width: 320px; border-radius: 0 24px 24px 0; }
-    .toast { bottom: 32px; }
-    .confetti-piece { position: fixed; }
 
     /* ─────────────────────────────────────────
        HOME
@@ -2075,11 +2117,13 @@
     background: rgba(10,10,18,0.97);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
   }
   .who-voting-overlay.show {
     opacity: 1;
     pointer-events: all;
+    visibility: visible; 
   }
 
   .who-voter-call {
@@ -2680,12 +2724,14 @@
     z-index: 5000;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
     padding: 24px;
   }
   .special-card-overlay.show {
     opacity: 1;
     pointer-events: all;
+    visibility: visible;
   }
   .special-card-modal {
     background: var(--surface);
@@ -2842,7 +2888,10 @@
     pointer-events: none;
     transition: opacity 0.3s;
   }
-  .impostor-role-overlay.show { opacity: 1; pointer-events: all; }
+  .impostor-role-overlay.show { 
+    opacity: 1; 
+    pointer-events: all;
+  }
   .impostor-role-card {
     background: var(--surface);
     border-radius: 24px;
@@ -3044,4 +3093,35 @@
   .add-player-container {
   position: relative;
   z-index: 40;
+}
+
+.home-top-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  z-index: 1;
+  margin-top: auto;
+}
+
+.home-actions-block {
+  z-index: 1;
+  margin-top: auto;
+}
+
+.player-preview-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 2px solid var(--border);
+}
+#who-reveal-phase.visible {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
