@@ -23,6 +23,8 @@
     --vs-color:    #ff6ec7;
     --radius:    18px;
     --radius-sm: 10px;
+    --impostor-color: #ff6b35;  
+    --success-color:  #00e676;
   }
 
   html, body {
@@ -1302,6 +1304,18 @@
     border-bottom: 1px solid var(--border);
   }
 
+.menu-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;  /* scroll suave en iOS */
+  scrollbar-width: none;              /* ocultar scrollbar en Firefox */
+}
+.menu-body::-webkit-scrollbar {
+  display: none;                      /* ocultar scrollbar en Chrome/Safari */
+}
+
   .menu-title {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 22px;
@@ -1417,11 +1431,10 @@
   .menu-mode-btn[data-mode="never"] { color: var(--never-color); }
 
   .menu-mode-icon { font-size: 22px; }
-  .menu-mode-name { font-size: 11px; font-weight: 700; letter-spacing: 0.5px; }
+  .menu-mode-name { font-size: 11px; font-weight: 700; letter-spacing: 0px; }
 
   .menu-danger {
-    margin-top: auto;
-    padding: 16px 20px 40px;
+    padding: 16px 20px calc(40px + env(safe-area-inset-bottom, 0px));
     border-top: 1px solid var(--border);
   }
 
@@ -1933,8 +1946,13 @@
       width: 100%; height: 100%;
       border-radius: 0; border: none; box-shadow: none;
       overflow-y: auto; z-index: 1;
+      visibility: hidden;        
+      pointer-events: none; 
     }
-    .screen.active { display: flex; }
+    .screen.active { display: flex; 
+    visibility: visible;       
+    pointer-events: auto;
+    }
 
     /* ─────────────────────────────────────────
        HOME
@@ -2374,8 +2392,8 @@
     gap: 6px;
     transition: all 0.15s;
   }
-  .gender-btn.selected-m { border-color: #40c4ff; background: rgba(64,196,255,0.1); color: #40c4ff; }
-  .gender-btn.selected-f { border-color: #ff80ab; background: rgba(255,128,171,0.1); color: #ff80ab; }
+  .gender-btn.selected-m { border-color: var(--vs-m-color); background: rgba(64,196,255,0.1); color: var(--vs-m-color); }
+  .gender-btn.selected-f { border-color: var(--vs-f-color); background: rgba(255,128,171,0.1); color: var(--vs-f-color); }
   .gender-btn.selected-o { border-color: var(--neon-purple); background: rgba(180,79,255,0.1); color: var(--neon-purple); }
 
   /* player item enhanced */
@@ -2886,11 +2904,13 @@
     padding: 24px;
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s;
+    visibility: hidden;
+    transition: opacity 0.3s, visibility 0.3s;
   }
   .impostor-role-overlay.show { 
     opacity: 1; 
     pointer-events: all;
+    visibility: visible;
   }
   .impostor-role-card {
     background: var(--surface);
@@ -3120,8 +3140,52 @@
   font-size: 24px;
   border: 2px solid var(--border);
 }
-#who-reveal-phase.visible {
-  display: flex;
+#who-reveal-phase {
+  display: none;
+  width: 100%;
   flex-direction: column;
   align-items: center;
+  gap: 20px;
+}
+#who-reveal-phase.visible {
+  display: flex;
+}
+.player-preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+}
+.player-preview-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--surface2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+.player-preview-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+.player-preview-gender {
+  font-size: 11px;
+  color: var(--text-dim);
+}
+.impostor-hint-phase {
+  width: 100%;
+  max-width: 400px;
+  display: none;  
+  flex-direction: column;
+  gap: 10px;
+}
+.impostor-hint-phase.visible {
+  display: flex;
 }
