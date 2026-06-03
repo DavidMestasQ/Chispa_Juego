@@ -2,6 +2,9 @@
 //  DATA — banco de preguntas
 // ===================================================
 const CHALLENGES = {
+// ===================================================
+//  preguntas para juego verdad o reto
+// ===================================================
   truth: {
     1: [
       "¿Cuál fue tu mayor vergüenza en la escuela?",
@@ -371,6 +374,9 @@ const CHALLENGES = {
       "¿Hay algo que te gustaría experimentar sexualmente pero que nunca te has atrevido a pedir?",
     ]
   },
+// ===================================================
+//  RETOS para juego verdad o reto
+// ===================================================
   dare: {
     1: [
       "Imita a alguien del grupo por 30 segundos",
@@ -655,8 +661,76 @@ const CHALLENGES = {
       "Propón un reto -picante- (razonable y consensuado) a la persona que elijas para su próximo turno de -Reto-.",
     ]
   },
+// ===================================================
+//  PREGUNTAS para el juego de trivia
+// ===================================================
   trivia: {
     1: [
+      { q: "¿Cuál es la danza puneña que representa el triunfo del arcángel sobre el demonio?", opts: ["Diablada", "Morenada", "Caporales", "Sicuris"], ans: 0 },
+      { q: "¿Cómo se denomina la festividad religiosa más grande del Perú celebrada en Puno en febrero?", opts: ["Inti Raymi", "Virgen de la Candelaria", "Señor de los Milagros", "Corpus Christi"], ans: 1 },
+      { q: "¿Qué pueblo preínca fue el antecesor directo de la cultura Tiahuanaco en la zona del Collao?", opts: ["Pucará", "Moche", "Nazca", "Chavín"], ans: 0 },
+      { q: "¿Cuál es el instrumento de viento andino hecho de caña, típico de las bandas puneñas?", opts: ["Quena", "Zampoña", "Pinkullo", "Antara"], ans: 1 },
+      { q: "¿Qué complejo arqueológico puneño es famoso por sus torres funerarias de piedra?", opts: ["Sillustani", "Kotosh", "Chan Chan", "Pikillacta"], ans: 0 },
+      { q: "¿Cómo se llama el grupo de islas flotantes construidas de totora en el Lago Titicaca?", opts: ["Amantaní", "Taquile", "Uros", "Esteves"], ans: 2 },
+      { q: "¿Cuál es el plato típico puneño preparado con carne de cordero, alpaca y chuño?", opts: ["Ceviche", "Chairo", "Lomo saltado", "Adobo"], ans: 1 },
+      { q: "¿Qué baile puneño imita el paso de los esclavos africanos con matracas?", opts: ["Diablada", "Morenada", "Tinkus", "Llamerada"], ans: 1 },
+      { q: "¿A qué cultura pertenece la famosa estela lítica del 'Degollador' hallada en Pucará?", opts: ["Inca", "Chimú", "Pucará", "Wari"], ans: 2 },
+      { q: "¿Qué fenómeno climático es el principal desafío para la agricultura en el altiplano puneño?", opts: ["Huracanes", "Heladas", "Tsunamis", "Inundaciones"], ans: 1 },
+      { q: "¿Cuál es el ave emblemática que habita en las zonas de totorales del Lago Titicaca?", opts: ["Cóndor", "Zambullidor del Titicaca", "Colibrí", "Águila"], ans: 1 },
+      { q: "¿Qué idioma es co-oficial en la región de Puno junto al castellano?", opts: ["Quechua y Aymara", "Guaraní", "Muchik", "Shipibo"], ans: 0 },
+      { q: "¿Cómo se llama el proceso de deshidratación de la papa para obtener chuño?", opts: ["Liofilización natural", "Salazón", "Ahumado", "Fermentación"], ans: 0 },
+      { q: "¿En qué provincia de Puno se encuentra el templo de la fertilidad de Chucuito?", opts: ["Azángaro", "Melgar", "Puno", "Chucuito"], ans: 3 },
+      { q: "¿Cuál es el río más largo del Perú?", opts: ["Rímac", "Ucayali", "Marañón", "Amazonas"], ans: 3 },
+      { q: "¿Cómo se llama la obra de teatro de temática incaica más importante de la literatura colonial?", opts: ["Ollantay", "La ciudad de los perros", "Trilce", "Los heraldos negros"], ans: 0 },
+      { q: "¿Quién fue el historiador peruano conocido como el 'Bibliotecario Mendigo'?", opts: ["Jorge Basadre", "Ricardo Palma", "Raúl Porras Barrenechea", "Basilio Santa Cruz"], ans: 1 },
+      { q: "¿Qué departamento del Perú es conocido como la 'Capital de la Amistad'?", opts: ["Piura", "Chiclayo", "Trujillo", "Tumbes"], ans: 1 },
+      { q: "¿Cuál es el volcán más alto del Perú?", opts: ["Misti", "Coropuna", "Huascarán", "Sabancaya"], ans: 1 },
+      { q: "¿Qué cultura preinca es famosa por sus canales de irrigación y orfebrería?", opts: ["Chavín", "Chimú", "Moche", "Nazca"], ans: 2 },
+      { q: "¿En qué año se proclamó la Independencia del Perú?", opts: ["1820", "1821", "1824", "1825"], ans: 1 },
+      { q: "¿Cómo se llama el proceso de intercambio de productos entre pisos ecológicos propuesto por John Murra?", opts: ["Control vertical", "Trueque", "Reciprocidad", "Mita"], ans: 0 },
+      { q: "¿Cuál es el documento supremo que establece la estructura y funciones del Estado peruano?", opts: ["La Ley Orgánica", "La Constitución Política", "El Código Civil", "El Reglamento del Congreso"], ans: 1 },
+      { q: "¿Qué organismo autónomo es el encargado de administrar justicia electoral en el Perú?", opts: ["ONPE", "JNE", "RENIEC", "Tribunal Constitucional"], ans: 1 },
+      { q: "¿Cuántos miembros tiene el Congreso de la República del Perú?", opts: ["100", "120", "130", "150"], ans: 2 },
+      { q: "¿Qué entidad es la encargada de defender los derechos fundamentales de la persona?", opts: ["Ministerio Público", "Defensoría del Pueblo", "Poder Judicial", "Ministerio de Justicia"], ans: 1 },
+      { q: "¿Cuál es el periodo de mandato del Presidente de la República en el Perú?", opts: ["4 años", "5 años", "6 años", "3 años"], ans: 1 },
+      { q: "¿Quién tiene la potestad de declarar la guerra o firmar la paz según la Constitución?", opts: ["El Congreso", "El Presidente", "El Consejo de Ministros", "El Tribunal Constitucional"], ans: 0 },
+      { q: "¿Qué institución es la encargada de formular y ejecutar la política monetaria en el Perú?", opts: ["Ministerio de Economía", "Banco Central de Reserva", "Superintendencia de Banca", "Contraloría"], ans: 1 },
+      { q: "¿Cómo se llama el indicador que mide la variación porcentual de los precios al consumidor?", opts: ["PBI", "Tasa de interés", "Inflación", "Tipo de cambio"], ans: 2 },
+      { q: "¿Qué es el PBI (Producto Bruto Interno)?", opts: ["El valor de la deuda externa", "El valor de toda la producción de bienes y servicios", "El total de impuestos recaudados", "El gasto público total"], ans: 1 },
+      { q: "¿Qué tipo de mercado existe cuando hay un solo vendedor frente a muchos compradores?", opts: ["Oligopolio", "Competencia perfecta", "Monopolio", "Monopsonio"], ans: 2 },
+      { q: "¿Cuál es el principal tributo que recauda la SUNAT sobre la venta de bienes y servicios?", opts: ["Impuesto a la Renta", "IGV", "ITAN", "ISC"], ans: 1 },
+      { q: "¿Qué sucede cuando la cantidad demandada es mayor a la cantidad ofrecida a un precio determinado?", opts: ["Equilibrio", "Escasez", "Excedente", "Inflación"], ans: 1 },
+      { q: "¿Qué sector económico engloba las actividades extractivas como la minería y pesca?", opts: ["Primario", "Secundario", "Terciario", "Cuaternario"], ans: 0 },
+      { q: "¿Qué función cumple el dinero como medida para expresar el valor de los bienes?", opts: ["Depósito de valor", "Patrón de pago diferido", "Unidad de cuenta", "Medio de cambio"], ans: 2 },
+      { q: "¿Qué significa el término 'Arancel' en economía?", opts: ["Impuesto a las ganancias", "Impuesto a la importación", "Subsidio estatal", "Tasa de interés"], ans: 1 },
+      { q: "¿Quién es el autor de 'Los comentarios reales de los incas'?", opts: ["Felipe Guamán Poma", "Inca Garcilaso de la Vega", "Pedro Cieza de León", "Tito Cusi Yupanqui"], ans: 1 },
+      { q: "¿Qué región natural del Perú abarca la zona de mayor altitud y frío?", opts: ["Yunga", "Quechua", "Janca", "Rupa Rupa"], ans: 2 },
+      { q: "¿Cuál fue el periodo de auge económico por la explotación del guano de las islas?", opts: ["República Aristocrática", "Prosperidad Falaz", "Confederación Perú-Boliviana", "Oncenio"], ans: 1 },
+      { q: "¿Cómo se denomina a la organización social y económica basada en el parentesco en el mundo andino?", opts: ["Ayni", "Minka", "Ayllu", "Mita"], ans: 2 },
+      { q: "¿Qué corriente literaria representó Manuel González Prada con su radicalismo político?", opts: ["Romanticismo", "Realismo", "Naturalismo", "Modernismo"], ans: 1 },
+      { q: "¿Cuál es el centro administrativo y religioso más importante de la cultura Wari?", opts: ["Pikillacta", "Wari", "Vilcashuamán", "Cajamarquilla"], ans: 1 },
+      { q: "¿Qué tratado definió finalmente los límites con el Ecuador en 1998?", opts: ["Ancón", "Río de Janeiro", "Brasilia", "Velarde-Río Branco"], ans: 2 },
+      { q: "¿Qué mineral, cuya extracción fue clave en la época colonial, tuvo gran importancia en la meseta del Collao?", opts: ["Cobre", "Plata", "Hierro", "Zinc"], ans: 1 },
+      { q: "¿Qué obra de Abraham Valdelomar es considerada un cuento fundamental del modernismo peruano?", opts: ["La ciudad de los tísicos", "El Caballero Carmelo", "Los hijos del sol", "Cuentos andinos"], ans: 1 },
+      { q: "¿Quién es el autor de 'Tradiciones Peruanas'?", opts: ["Manuel González Prada", "Ricardo Palma", "Ciro Alegría", "José María Arguedas"], ans: 1 },
+      { q: "¿En qué novela de Ciro Alegría se narra la lucha por la tierra en la comunidad de Rumi?", opts: ["La serpiente de oro", "Los perros hambrientos", "El mundo es ancho y ajeno", "Duelo de caballeros"], ans: 2 },
+      { q: "¿Cuál es la obra cumbre de César Vallejo que rompió con la métrica tradicional?", opts: ["Los heraldos negros", "Trilce", "España, aparta de mí este cáliz", "Poemas humanos"], ans: 1 },
+      { q: "¿Quién escribió la obra teatral 'Ollantay'?", opts: ["Garcilaso de la Vega", "Anónimo", "Felipe Guamán Poma", "Inca Garcilaso"], ans: 1 },
+      { q: "¿Qué movimiento literario lideró Manuel González Prada con su discurso 'En el Politeama'?", opts: ["Romanticismo", "Realismo", "Vanguardismo", "Indigenismo"], ans: 1 },
+      { q: "¿Cuál es la temática principal en 'Los ríos profundos' de José María Arguedas?", opts: ["La vida en la costa", "El conflicto de identidad cultural", "La revolución industrial", "La conquista española"], ans: 1 },
+      { q: "¿Qué cultura fue descubierta por Julio C. Tello en 1919?", opts: ["Moche", "Nazca", "Chavín", "Wari"], ans: 2 },
+      { q: "¿Quién fue el último inca de la resistencia de Vilcabamba capturado en 1572?", opts: ["Manco Inca", "Sayri Túpac", "Titu Cusi Yupanqui", "Túpac Amaru I"], ans: 3 },
+      { q: "¿Qué tratado puso fin a la guerra con Chile en 1883?", opts: ["Tratado de Lima", "Tratado de Ancón", "Tratado de Valparaíso", "Protocolo de Río"], ans: 1 },
+      { q: "¿Qué presidente es conocido por iniciar la 'República Aristocrática' en 1899?", opts: ["Augusto B. Leguía", "Eduardo López de Romaña", "Nicolás de Piérola", "Guillermo Billinghurst"], ans: 1 },
+      { q: "¿Cómo se llamó el levantamiento indígena más grande de la historia colonial en 1780?", opts: ["Rebelión de Juan Santos Atahualpa", "Rebelión de Túpac Amaru II", "Rebelión de Huaraz", "Rebelión de Pumacahua"], ans: 1 },
+      { q: "¿Cuál fue el principal centro ceremonial de la cultura Chavín?", opts: ["Chan Chan", "Caral", "Chavín de Huántar", "Kuelap"], ans: 2 },
+      { q: "¿Qué personaje histórico es conocido como el 'Brujo de los Andes'?", opts: ["Miguel Iglesias", "Andrés A. Cáceres", "Francisco Bolognesi", "Alfonso Ugarte"], ans: 1 },
+      { q: "¿En qué gobierno se otorgó el voto a la mujer en el Perú (1955)?", opts: ["Manuel A. Odría", "Manuel Prado Ugarteche", "José Luis Bustamante y Rivero", "Fernando Belaúnde"], ans: 0 },
+      { q: "¿Qué metal es líquido a temperatura ambiente?", opts: ["Plata", "Mercurio", "Oro", "Plomo"], ans: 1 },
+      { q: "¿Cuántos corazones tiene un pulpo?", opts: ["1", "2", "3", "4"], ans: 2 },
+      { q: "¿Qué inventó Alexander Graham Bell?", opts: ["La bombilla", "El teléfono", "La radio", "El avión"], ans: 1 },
+      { q: "¿Cuál es el país más pequeño del mundo?", opts: ["Mónaco", "Nauru", "Ciudad del Vaticano", "San Marino"], ans: 2 },
+      { q: "¿Qué es un 'Podcast'?", opts: ["Un video", "Un programa de audio", "Un libro", "Una app de citas"], ans: 1 },
       { q: "¿De qué color es el cielo en un día despejado?", opts: ["Verde","Azul","Rojo","Amarillo"], ans: 1 },
       { q: "¿Cuántas patas tiene un perro?", opts: ["2","3","4","6"], ans: 2 },
       { q: "¿Cuál es el planeta donde vivimos?", opts: ["Marte","Saturno","Tierra","Venus"], ans: 2 },
@@ -846,9 +920,23 @@ const CHALLENGES = {
     { q: "¿Qué instrumento tiene teclas?", opts: ["Guitarra","Piano","Batería","Flauta"], ans: 1 },
     { q: "¿Qué país inventó la pizza?", opts: ["España","Italia","Francia","Grecia"], ans: 1 },
 
-
     ],
     2: [
+      { q: "¿Cuál es el compuesto orgánico resultante de la fotosíntesis?", opts: ["Proteína", "Glucosa", "Lípido", "Ácido nucleico"], ans: 1 },
+      { q: "¿En qué etapa de la mitosis los cromosomas se alinean en el plano ecuatorial?", opts: ["Profase", "Anafase", "Metafase", "Telofase"], ans: 2 },
+      { q: "¿Qué ley física relaciona la fuerza, la masa y la aceleración?", opts: ["Ley de Hooke", "Segunda Ley de Newton", "Ley de Ohm", "Principio de Pascal"], ans: 1 },
+      { q: "¿Cuál fue el periodo histórico peruano caracterizado por la prosperidad del guano?", opts: ["Colonia", "Virreinato", "Prosperidad Falaz", "República Aristocrática"], ans: 2 },
+      { q: "¿Qué región natural del Perú es conocida por su relieve escarpado y los 'pongos'?", opts: ["Costa", "Sierra", "Selva Alta", "Selva Baja"], ans: 2 },
+      { q: "¿Cuál es el valor del pH de una solución neutra a 25°C?", opts: ["0", "7", "10", "14"], ans: 1 },
+      { q: "¿Qué cultura preínca se caracterizó por sus geoglifos en el desierto?", opts: ["Moche", "Nazca", "Chavín", "Paracas"], ans: 1 },
+      { q: "¿Cómo se llama el proceso de paso de estado sólido a gaseoso sin pasar por el líquido?", opts: ["Fusión", "Solidificación", "Sublimación", "Condensación"], ans: 2 },
+      { q: "¿Qué filósofo griego fue maestro de Alejandro Magno?", opts: ["Sócrates", "Platón", "Aristóteles", "Zenón"], ans: 2 },
+      { q: "¿Qué órgano humano es el encargado de la filtración de la sangre y formación de orina?", opts: ["Hígado", "Páncreas", "Riñón", "Vejiga"], ans: 2 },
+      { q: "¿Cuál es la capital histórica del Imperio Inca?", opts: ["Lima", "Cusco", "Cajamarca", "Puno"], ans: 1 },
+      { q: "¿Qué unidad mide la cantidad de sustancia en el Sistema Internacional?", opts: ["Gramo", "Mol", "Molaridad", "Kilogramo"], ans: 1 },
+      { q: "¿Cómo se define a la estructura social jerárquica del Virreinato?", opts: ["Sociedad de clases", "Sociedad estamental", "Sociedad democrática", "Sociedad igualitaria"], ans: 1 },
+      { q: "¿Qué gas es el principal responsable del efecto invernadero en la atmósfera?", opts: ["Oxígeno", "Nitrógeno", "Dióxido de carbono", "Argón"], ans: 2 },
+      { q: "¿Cuál es el tipo de enlace en el que se comparten electrones entre átomos?", opts: ["Iónico", "Covalente", "Metálico", "Puente de hidrógeno"], ans: 1 },
       { q: "¿Cuántos colores tiene el arcoíris?", opts: ["5","6","7","8"], ans: 2 },
       { q: "¿En qué país se inventó la pizza?", opts: ["Francia","Italia","Grecia","España"], ans: 1 },
       { q: "¿Cuál es el océano más grande del mundo?", opts: ["Atlántico","Índico","Ártico","Pacífico"], ans: 3 },
@@ -934,6 +1022,9 @@ const CHALLENGES = {
       { q: "¿En qué ciudad se firmó la Declaración de Independencia de EE.UU.?", opts: ["Boston","Nueva York","Washington","Filadelfia"], ans: 3 },
     ]
   },
+// ===================================================
+//  YO NUNCA NUNCA — banco de preguntas
+// ===================================================
   never: {
     1: [
       "Yo nunca he llegado tarde a algo importante",
@@ -1183,6 +1274,9 @@ const CHALLENGES = {
       "Nunca he jugado al 'strip poker'.",
           ]
   },
+// ===================================================
+//  QUIEN — banco de preguntas
+// ===================================================
   who: {
     1: [
       "¿Quién del grupo sería el primero en rendirse en una caminata?",
