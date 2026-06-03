@@ -2272,10 +2272,6 @@ function confirmAddPlayer() {
 
   state.players.push({name,gender: playerModalState.gender,emoji: playerModalState.emoji,score: 0,});
   document.getElementById('player-modal-overlay').classList.remove('show');
-    console.log(
-    'PLAYERS AGREGADOS:',
-    JSON.parse(JSON.stringify(state.players))
-  );
 
   // if adding mid-game, update game state too
   if (state._addingMidGame) {
@@ -2465,11 +2461,12 @@ function saveGame() {
       players: state.players,
       mode: state.mode,
       intensity: state.intensity,
-      totalRounds: state.totalRounds,
+       totalRounds: state.totalRounds === Infinity ? 'Infinity' : state.totalRounds,
       currentPlayerIndex: state.currentPlayerIndex,
       round: state.round,
       challengesDone: state.challengesDone,
-      maxChallenges: state.maxChallenges,
+      maxChallenges: state.maxChallenges === Infinity ? 'Infinity' : state.maxChallenges,
+      usedChallenges: state.usedChallenges,
       shots: state.shots,
       fingerState: state.fingerState,
       vsScoreM: state.vsScoreM,
@@ -2511,11 +2508,12 @@ function resumeGame() {
   state.players = save.players;
   state.mode = save.mode;
   state.intensity = save.intensity;
-  state.totalRounds = save.totalRounds;
+  state.totalRounds = save.totalRounds === 'Infinity' ? Infinity : (save.totalRounds || Infinity);
   state.currentPlayerIndex = save.currentPlayerIndex;
   state.round = save.round;
   state.challengesDone = save.challengesDone;
-  state.maxChallenges = save.maxChallenges;
+  state.maxChallenges = save.maxChallenges === 'Infinity' ? Infinity : (save.maxChallenges || Infinity);
+  state.usedChallenges = save.usedChallenges || { truth:[], dare:[], trivia:[], never:[], who:[] };
   state.shots = save.shots || {};
   state.fingerState = save.fingerState || {};
   state.vsScoreM = save.vsScoreM || 0;
@@ -3002,12 +3000,14 @@ function confirmTriviaPick() {
 function startWhoVoting() {
   state.whoVoterIndex = 0;
   state.whoSelectedVote = null;
+  state.whoVotes = {};   // ← AGREGAR: limpiar votos al iniciar
   showWhoVoterTurn();
   document.getElementById('who-voting-overlay').classList.add('show');
   document.getElementById('who-voter-phase').style.display = 'flex';
   document.getElementById('who-voter-phase').style.flexDirection = 'column';
   document.getElementById('who-voter-phase').style.alignItems = 'center';
-  document.getElementById('who-reveal-phase').style.display = 'none';
+  document.getElementById('who-reveal-phase').classList.remove('visible');  
+  document.getElementById('who-reveal-phase').style.display = '';           
 }
 
 function showWhoVoterTurn() {
@@ -3137,6 +3137,12 @@ function showWhoReveal() {
 function whoRevealShot() {
   document.getElementById('who-voting-overlay').classList.remove('show');
 
+  // ← AGREGAR: limpiar estado de fases para la próxima ronda
+  document.getElementById('who-reveal-phase').classList.remove('visible');
+  document.getElementById('who-voter-phase').style.display = '';
+  state.whoVotes = {};        // ← limpiar votos
+  state.whoVoterIndex = 0;   // ← resetear índice
+
   const proceed = () => {
     state.players[state.currentPlayerIndex].score += 10;
     state.challengesDone++;
@@ -3148,7 +3154,6 @@ function whoRevealShot() {
   };
 
   if (state.whoIsFullTie) {
-    // fire shots one by one for each player sequentially
     let i = 0;
     function nextShot() {
       if (i >= state.players.length) { proceed(); return; }
@@ -3532,16 +3537,7 @@ function closeMenu() {
 
 function switchMode(mode) {
   state.mode = mode;
-  state.challengesDone = 0;
-  state.usedChallenges = { truth:[],dare:[], trivia:[], never:[], who:[] };
-  state.currentPlayerIndex = 0;
-  state.round = 1;
-  state.fingerState = {};
-  state.players.forEach(p => { state.fingerState[p.name] = true; });
-  state.specialCard = null;
-  state.doubleActive = false;
-  state.redirectActive = false;
-  state.redirectTarget = null;
+  resetGameState(); 
   closeMenu();
   if (mode === 'todi') {
     startTodi();
@@ -4003,26 +3999,7 @@ function showResults() {
 }
 
 function playAgain() {
-  // reset all scores and shots so they don't carry over
-  state.players.forEach(p => { p.score = 0; });
-  state.shots = {};
-  state.players.forEach(p => { state.shots[p.name] = 0; });
-  state.fingerState = {};
-  state.players.forEach(p => { state.fingerState[p.name] = true; });
-  state.challengesDone = 0;
-  state.round = 1;
-  state.currentPlayerIndex = 0;
-  state.usedChallenges = { truth:[],dare:[], trivia:[], never:[], who:[] };
-  state.vsScoreM = 0; state.vsScoreF = 0;
-  state.vsUsedM = []; state.vsUsedF = [];
-  state.currentTrivia = null;
-  state.triviaAnswered = false;
-  state.triviaPickChosen = null;
-  state.specialCard = null;
-  state.specialUsedIds = [];
-  state.doubleActive = false;
-  state.redirectActive = false;
-  state.redirectTarget = null;
+  resetGameState();
   goTo('modes');
 }
 
@@ -4150,10 +4127,6 @@ function impostorPickWord() {
 }
 
 function impostorNewRound() {
-  console.log(
-  'ENTRANDO A impostorNewRound:',
-  JSON.parse(JSON.stringify(state.players))
-);
   const n = state.players.length;
 
   // pick word
@@ -4182,9 +4155,7 @@ function impostorNewRound() {
   document.getElementById('impostor-word-display').textContent = wordObj.cat;
 
   // show hint phase, hide others
-  document.getElementById('impostor-hint-phase').style.display = 'flex';
-  document.getElementById('impostor-hint-phase').style.flexDirection = 'column';
-  document.getElementById('impostor-hint-phase').style.gap = '10px';
+  document.getElementById('impostor-hint-phase').classList.add('visible');
   document.getElementById('impostor-vote-phase').style.display = 'none';
   document.getElementById('impostor-reveal-phase').style.display = 'none';
   document.getElementById('impostor-hints-done').innerHTML = '';
@@ -4365,8 +4336,6 @@ function impostorRoleNext() {
    */
   const overlay = document.getElementById('impostor-role-overlay');
   const idx     = parseInt(overlay.dataset.revealIdx);
-  console.log('Reveal IDX:', idx);
-  console.log('Players:', state.players);
 
   // Limpiar contenido del rol para que no se vea durante el llamado al siguiente
   document.getElementById('impostor-role-word').innerHTML = '';
