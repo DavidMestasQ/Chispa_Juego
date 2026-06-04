@@ -220,6 +220,22 @@
       </div>
       <div class="trivia-timer-label" id="trivia-timer-label">10</div>
   </div>
+
+  <div id="truth-dare-choice" style="display:none;width:100%;max-width:340px;flex-direction:column;align-items:center;gap:12px">
+    <div style="font-size:11px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">¿Qué eliges?</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
+      <button class="choice-btn-truth" onclick="chooseType('truth')">
+        <div style="font-size:30px">🤫</div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--truth-color)">VERDAD</div>
+        <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Responde con honestidad</div>
+      </button>
+      <button class="choice-btn-dare" onclick="chooseType('dare')">
+        <div style="font-size:30px">🔥</div>
+        <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--dare-color)">RETO</div>
+        <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Atrévete a hacerlo</div>
+      </button>
+    </div>
+  </div>
   
   <div class="card-area">
     <div id="challenge-card" class="challenge-card card-truth">
