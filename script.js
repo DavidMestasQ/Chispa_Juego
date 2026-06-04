@@ -2714,6 +2714,7 @@ function resetGameState() {
   state.impostorHints = [];
   state.impostorVotes = {};
   state.impostorUsedWords = [];
+  state.currentTruthDareType = null;
   state.players.forEach(p => {
     state.fingerState[p.name] = true;
     state.shots[p.name] = 0;
@@ -2879,6 +2880,41 @@ function drawChallenge() {
   maybeShowSpecialCard(() => _drawChallengeContent());
 }
 
+function resetGameUI() {
+  // 1. Selector verdad/reto
+  const choice = document.getElementById('truth-dare-choice');
+  if (choice) choice.style.display = 'none';
+
+  // 2. Carta — restaurar visibilidad
+  const cardArea = document.querySelector('.card-area');
+  if (cardArea) cardArea.style.visibility = 'visible';
+
+  // 3. Botones Pasar / Siguiente
+  const actionsEl = document.querySelector('.game-actions');
+  if (actionsEl) actionsEl.style.display = 'flex';
+
+  // 4. Botón "Siguiente turno" de Yo Nunca
+  const neverNextEl = document.getElementById('never-next-btn');
+  if (neverNextEl) neverNextEl.style.display = 'none';
+
+  // 5. Timer de trivia
+  clearTriviaTimer();
+
+  // 6. Overlays — cerrar todos por si quedó alguno abierto
+  document.getElementById('who-voting-overlay')?.classList.remove('show');
+  document.getElementById('trivia-pick-overlay')?.classList.remove('show');
+  document.getElementById('special-card-overlay')?.classList.remove('show');
+  document.getElementById('shot-overlay')?.classList.remove('show');
+
+  // 7. Limpiar interacción interna de la carta
+  const interactionEl = document.getElementById('card-interaction');
+  if (interactionEl) interactionEl.innerHTML = '';
+
+  // 8. Restaurar clase base de la carta
+  const card = document.getElementById('challenge-card');
+  if (card) card.className = 'challenge-card';
+}
+
 // ===================================================
 //  CONTENIDO DE LA CARTA (llamada por drawChallenge)
 //  Según state.mode, decide qué tipo de carta mostrar:
@@ -2889,6 +2925,7 @@ function drawChallenge() {
 //  Usa pickChallenge() para sacar la pregunta del banco.
 // ===================================================
 function _drawChallengeContent() {
+  resetGameUI();
   const card = document.getElementById('challenge-card');
   const typeLabel = document.getElementById('card-type-label');
   const textEl = document.getElementById('card-text');
@@ -2903,15 +2940,8 @@ function _drawChallengeContent() {
   let cardClass, label, text;
 
   if (state.mode === 'truth') {
-    // alternate truth / dare
-    const isTruth = state.challengesDone % 2 === 0;
-    const type = isTruth ? 'truth' : 'dare';
-    cardClass = 'card-' + type;
-    label = isTruth ? 'VERDAD' : 'RETO';
-    text = pickChallenge(type);
-    document.getElementById('game-mode-badge').style.color = isTruth ? 'var(--truth-color)' : 'var(--dare-color)';
-    document.getElementById('game-mode-badge').textContent = isTruth ? 'VERDAD O RETO' : 'VERDAD O RETO';
-
+    showTruthDareChoice();
+    return;
   } else if (state.mode === 'trivia') {
   cardClass = 'card-trivia';
   label = 'TRIVIA 🧠';
@@ -3312,7 +3342,7 @@ function resolveAndNext() {
   };
 
   // dare mode: confirm completion with custom dialog
-  const isDare = state.mode === 'truth' && state.challengesDone % 2 !== 0;
+  const isDare = state.currentTruthDareType === 'dare';
   if (isDare) {
     showConfirmDialog(p.name, proceed);
     return;
@@ -3641,6 +3671,7 @@ function closeMenu() {
 function switchMode(mode) {
   state.mode = mode;
   resetGameState(); 
+  resetGameUI();
   closeMenu();
   if (mode === 'todi') {
     startTodi();
@@ -3650,6 +3681,7 @@ function switchMode(mode) {
     startImpostor();
   } else {
     goTo('game');
+    renderPlayersStrip();
     drawChallenge();
   }
   showToast('Modo: ' + {
@@ -5309,6 +5341,50 @@ function triviaTimeOut() {
     };
     showShot(currentPlayer.name, '⏱️ ¡Tiempo agotado! Sin respuesta', null, proceed);
   }, 900);
+}
+
+function showTruthDareChoice() {
+  const choice = document.getElementById('truth-dare-choice');
+  const cardArea = document.querySelector('.card-area');
+  const gameActions = document.querySelector('.game-actions');
+
+  choice.style.display = 'flex';
+  cardArea.style.visibility = 'hidden';   // ocultar carta hasta que elija
+  gameActions.style.display = 'none';      // ocultar Pasar/Siguiente hasta que elija
+
+  // limpiar badge
+  document.getElementById('game-mode-badge').style.color = 'var(--truth-color)';
+  document.getElementById('game-mode-badge').textContent = 'VERDAD O RETO';
+}
+
+function chooseType(type) {
+  const choice = document.getElementById('truth-dare-choice');
+  const cardArea = document.querySelector('.card-area');
+  const gameActions = document.querySelector('.game-actions');
+
+  // ocultar selector
+  choice.style.display = 'none';
+  cardArea.style.visibility = 'visible';
+  gameActions.style.display = 'flex';
+
+  sfxTap();
+
+  // dibujar la carta del tipo elegido
+  const card = document.getElementById('challenge-card');
+  const typeLabel = document.getElementById('card-type-label');
+  const textEl = document.getElementById('card-text');
+
+  const cardClass = 'card-' + type;
+  const label = type === 'truth' ? 'VERDAD' : 'RETO';
+  const text = pickChallenge(type);
+
+  card.className = 'challenge-card ' + cardClass;
+  typeLabel.textContent = label;
+  textEl.textContent = text;
+  document.getElementById('game-mode-badge').style.color = type === 'truth' ? 'var(--truth-color)' : 'var(--dare-color)';
+
+  // guardar el tipo elegido para que resolveAndNext sepa cuál fue
+  state.currentTruthDareType = type;
 }
 
 initApp();
