@@ -3212,3 +3212,30 @@
   letter-spacing: 1px;
   transition: color 0.3s;
 }
+.choice-btn-truth,
+.choice-btn-dare {
+  border-radius: 18px;
+  padding: 20px 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  border: none;
+  width: 100%;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
+}
+.choice-btn-truth:active,
+.choice-btn-dare:active {
+  transform: scale(0.95);
+}
+.choice-btn-truth {
+  background: linear-gradient(145deg, #001a2e, #002a40);
+  border: 1px solid rgba(0,229,255,0.25);
+}
+.choice-btn-dare {
+  background: linear-gradient(145deg, #2e0010, #400018);
+  border: 1px solid rgba(255,45,107,0.25);
+}
