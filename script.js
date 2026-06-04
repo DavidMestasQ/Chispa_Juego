@@ -1,4 +1,10 @@
 // ===================================================
+//  Tiempo del cronometro del juego trivia
+// ===================================================
+let triviaTimerInterval = null;
+const TRIVIA_TIMER_SECONDS = 30;
+
+// ===================================================
 //  DATA — banco de preguntas
 // ===================================================
 const CHALLENGES = {
@@ -2217,6 +2223,7 @@ function initials(name) { return name.slice(0,2).toUpperCase(); }
 //  NAVIGATION
 // ===================================================
 function goTo(id) {
+  clearTriviaTimer();
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
   if (id === 'modes') { setTimeout(() => { cfLayout(); cfRender(false); }, 50); }
@@ -2933,6 +2940,7 @@ function _drawChallengeContent() {
       answerTrivia(Number(this.dataset.index));
     });
   });
+  startTriviaTimer();
 
   } else if (state.mode === 'never') {
     cardClass = 'card-never';
@@ -3003,6 +3011,7 @@ function _drawChallengeContent() {
 function answerTrivia(chosenIdx) {
   if (state.triviaAnswered) return;
   state.triviaAnswered = true;
+  clearTriviaTimer();
 
   const trivia = state.currentTrivia;
   const correct = trivia.ans;
@@ -5216,5 +5225,90 @@ window.addEventListener('resize', () => {
     _lastWasDesktop = false;
   }
 });
+
+function startTriviaTimer() {
+  clearTriviaTimer();
+
+  const wrap  = document.getElementById('trivia-timer-wrap');
+  const fill  = document.getElementById('trivia-timer-fill');
+  const label = document.getElementById('trivia-timer-label');
+
+  wrap.style.display = 'block';
+  fill.style.transition = 'none';
+  fill.style.width = '100%';
+  fill.style.background = 'var(--neon-cyan)';
+  label.style.color = 'var(--text-dim)';
+  label.textContent = TRIVIA_TIMER_SECONDS;
+
+  let remaining = TRIVIA_TIMER_SECONDS;
+
+  // pequeño delay para que el CSS de transición arranque bien
+  setTimeout(() => {
+    fill.style.transition = 'width 1s linear, background 0.5s ease';
+  }, 50);
+
+  triviaTimerInterval = setInterval(() => {
+    remaining--;
+    label.textContent = remaining;
+
+    // barra proporcional
+    fill.style.width = (remaining / TRIVIA_TIMER_SECONDS * 100) + '%';
+
+    // cambia a rojo en los últimos 3 segundos
+    if (remaining <= 3) {
+      fill.style.background = '#ff2d6b';
+      label.style.color = '#ff2d6b';
+      if (navigator.vibrate) navigator.vibrate(40); // vibración de alerta
+    }
+
+    // tiempo agotado
+    if (remaining <= 0) {
+      clearTriviaTimer();
+      triviaTimeOut();
+    }
+  }, 1000);
+}
+
+function clearTriviaTimer() {
+  if (triviaTimerInterval) {
+    clearInterval(triviaTimerInterval);
+    triviaTimerInterval = null;
+  }
+  const wrap = document.getElementById('trivia-timer-wrap');
+  if (wrap) wrap.style.display = 'none';
+}
+
+function triviaTimeOut() {
+  if (state.triviaAnswered) return;
+  if (state.mode !== 'trivia') return;                          
+  if (!document.getElementById('screen-game').classList.contains('active')) return;
+  state.triviaAnswered = true;
+
+  // marcar todas las opciones — mostrar la correcta
+  document.querySelectorAll('.trivia-opt').forEach((el, i) => {
+    if (i === state.currentTrivia.ans) {
+      el.classList.add('correct');
+    } else {
+      el.classList.add('disabled');
+    }
+  });
+
+  sfxWrong();
+  if (navigator.vibrate) navigator.vibrate([60, 40, 60]);
+
+  const currentPlayer = state.players[state.currentPlayerIndex];
+
+  setTimeout(() => {
+    const proceed = () => {
+      state.challengesDone++;
+      if (state.challengesDone >= state.maxChallenges) { clearSave(); showResults(); return; }
+      state.currentPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
+      if (state.currentPlayerIndex === 0) state.round++;
+      saveGame();
+      drawChallenge();
+    };
+    showShot(currentPlayer.name, '⏱️ ¡Tiempo agotado! Sin respuesta', null, proceed);
+  }, 900);
+}
 
 initApp();
