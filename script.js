@@ -2276,7 +2276,7 @@ let playerModalState = { gender: null, emoji: null };
 //  previo del formulario antes de mostrarse.
 // ===================================================
 function openPlayerModal() {
-  if (state.players.length >= 10) return showToast('Máximo 10 jugadores');
+  if (state.players.length >= 20) return showToast('Máximo 20 jugadores');
   playerModalState = { gender: null, emoji: null };
 
   const input = document.getElementById('player-modal-input');
