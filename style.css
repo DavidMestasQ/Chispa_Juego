@@ -2130,13 +2130,17 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 24px 20px 40px;
     background: rgba(10,10,18,0.97);
     opacity: 0;
     pointer-events: none;
     visibility: hidden;
     transition: opacity 0.3s, visibility 0.3s;
+    overflow-y: auto;                     
+    overflow-x: hidden;                    
+    overscroll-behavior: contain;          
+    -webkit-overflow-scrolling: touch;
   }
   .who-voting-overlay.show {
     opacity: 1;
@@ -2178,7 +2182,16 @@
     gap: 9px;
     width: 100%;
     max-width: 380px;
+    max-height: 45vh;                      
+    overflow-y: auto;                      
+    overscroll-behavior: contain;          
+    -webkit-overflow-scrolling: touch;   
+    scrollbar-width: none;
     margin-bottom: 20px;
+    padding-right: 4px;
+  }
+  .who-secret-options::-webkit-scrollbar {
+  display: none;                         
   }
   .who-secret-option {
     display: flex;
