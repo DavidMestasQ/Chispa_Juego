@@ -4,6 +4,7 @@
   "private": true,
   "description": "Juego CHISPA y sus pruebas de interacción",
   "scripts": {
+    "check:privacy": "node tests/privacy.test.cjs",
     "test": "node tests/game.test.cjs && node tests/basta.test.cjs && node tests/scroll.test.cjs",
     "test:basta": "node tests/basta.test.cjs",
     "test:scroll": "node tests/scroll.test.cjs"

@@ -1,6 +1,4 @@
-let pw;
-try { pw = require('playwright'); }
-catch { pw = require('playwright'); }
+const pw = require(process.env.PLAYWRIGHT_MODULE_PATH || 'playwright');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');

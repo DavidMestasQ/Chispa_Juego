@@ -7,3 +7,14 @@ node_modules/
 # Capturas y resultados generados al ejecutar las pruebas locales.
 tests/*.png
 tests/results*.json
+
+# Credenciales, claves privadas y copias locales.
+.npmrc
+.netrc
+.git-credentials
+credentials*.json
+*.pem
+*.key
+*.p12
+*.pfx
+*.bundle

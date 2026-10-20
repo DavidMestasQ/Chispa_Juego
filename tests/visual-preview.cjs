@@ -1,6 +1,5 @@
 // Capturas de las pantallas existentes para revisar únicamente los estilos.
-let pw;
-try {pw=require('playwright');}catch{pw=require('playwright');}
+const pw=require(process.env.PLAYWRIGHT_MODULE_PATH || 'playwright');
 const path=require('node:path');
 const fs=require('node:fs');
 const assert=require('node:assert/strict');

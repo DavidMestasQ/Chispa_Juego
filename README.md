@@ -2,7 +2,13 @@
 
 Versión revisada del proyecto personal. Para jugar, abre `index.html` en Edge, Chrome o Firefox. Mantén `index.html`, `script.js`, `style.css`, `basta.js` y `basta.css` en la misma carpeta. No necesita instalación ni servidor. Las fuentes de Google requieren conexión; si estás sin conexión, se utiliza la fuente alternativa.
 
-El proyecto activo en Visual Studio Code está en `CHISPA-corregido`. Los cambios se aplican directamente aquí; no hace falta descargar ni extraer nuevos ZIP. Los archivos originales de `proyecto-original` se conservaron sin cambios.
+Trabaja directamente en la carpeta del proyecto con Visual Studio Code; no hace falta descargar ni extraer nuevos ZIP. La documentación y las pruebas utilizan rutas portables, sin datos de las carpetas personales del equipo.
+
+## Privacidad del repositorio
+
+Los archivos de configuración privada, credenciales, claves, capturas y resultados temporales quedan excluidos mediante `.gitignore`. Antes de publicar, ejecuta `npm run check:privacy`; para incluir el historial, ejecuta `node tests/privacy.test.cjs --history`. La comprobación detecta rutas personales, correos que no sean de privacidad o de ejemplo y algunos formatos de credenciales; no sustituye la revisión de lo que se va a subir.
+
+Git debe usar el nombre público de GitHub y el correo `noreply` indicado en la configuración de correo de GitHub. `.gitignore` no oculta la autoría de los commits. Las pruebas usan la dependencia `playwright` instalada mediante `npm install`; opcionalmente puedes indicar su ubicación con la variable local `PLAYWRIGHT_MODULE_PATH`, sin publicarla en el repositorio.
 
 ## Apariencia actualizada
 

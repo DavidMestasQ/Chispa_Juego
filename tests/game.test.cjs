@@ -1,6 +1,4 @@
-let playwright;
-try { playwright = require('playwright'); }
-catch { playwright = require('playwright'); }
+const playwright = require(process.env.PLAYWRIGHT_MODULE_PATH || 'playwright');
 const { chromium } = playwright;
 const assert = require('node:assert/strict');
 const fs = require('node:fs');

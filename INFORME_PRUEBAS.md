@@ -72,7 +72,7 @@ También pasaron los **45 escenarios de regresión**, con el selector y la prueb
 
 ## Ajuste posterior: duplicador y carpeta activa
 
-La carpeta activa en Visual Studio Code es `CHISPA-corregido`. Los cambios se aplican directamente en sus archivos y no se generan nuevos ZIP.
+Los cambios se aplican directamente en los archivos de la carpeta del proyecto abierta en Visual Studio Code y no se generan nuevos ZIP.
 
 El límite de tres se aplica al castigo normal, antes del duplicador. El duplicador vuelve a convertir 1, 2 y 3 shots en 2, 4 y 6, respectivamente; se consume tras una penalización. Las cartas y la ruleta muestran esos valores. El resultado de las pruebas específicas de este ajuste está en `tests/results-duplicador.json`. La revisión de 44 escenarios que figura abajo es anterior a este ajuste.
 
@@ -94,7 +94,7 @@ Fecha: 19 de octubre de 2026, hora de Lima.
 
 **Resultado de la revisión inicial: 41 de 41 escenarios aprobados.** No se detectaron errores JavaScript durante esos escenarios. Se corrigieron 24 problemas de interacción, guardado, navegación, presentación e instrucciones. La tabla siguiente corresponde a esa revisión inicial; los cambios posteriores se describen arriba.
 
-La versión corregida está en `proyecto`. El original de `proyecto-original` se conserva intacto. Abre `index.html` de la copia corregida para probarla.
+La versión corregida está en la carpeta del proyecto. El original se conserva intacto. Abre `index.html` de la copia corregida para probarla.
 
 ## Errores encontrados y corregidos
 
