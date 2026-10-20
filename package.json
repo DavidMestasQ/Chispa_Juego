@@ -1,0 +1,12 @@
+{
+  "name": "chispa-juego-personal",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Juego CHISPA y sus pruebas de interacción",
+  "scripts": {
+    "test": "node tests/game.test.cjs && node tests/basta.test.cjs && node tests/scroll.test.cjs",
+    "test:basta": "node tests/basta.test.cjs",
+    "test:scroll": "node tests/scroll.test.cjs"
+  },
+  "devDependencies": {"playwright": "1.62.1"}
+}

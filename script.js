@@ -1,3 +1,4 @@
+const MAX_PLAYERS = 20;
 // ===================================================
 //  Tiempo del cronometro del juego trivia
 // ===================================================
@@ -8,9 +9,7 @@ const TRIVIA_TIMER_SECONDS = 30;
 //  DATA — banco de preguntas
 // ===================================================
 const CHALLENGES = {
-// ===================================================
-//  preguntas para juego verdad o reto
-// ===================================================
+// ===================================================Preguntas de Verdad o Reto===================================================
   truth: {
     1: [
       "¿Cuál fue tu mayor vergüenza en la escuela?",
@@ -380,11 +379,11 @@ const CHALLENGES = {
       "¿Hay algo que te gustaría experimentar sexualmente pero que nunca te has atrevido a pedir?",
     ]
   },
-// ===================================================
-//  RETOS para juego verdad o reto
-// ===================================================
+  // ===================================================Retos===================================================
   dare: {
     1: [
+      "Elige un color de ropa. Todos los jugadores que tengas ese color de ropa se la deben quitar",
+      "Ruega a la chica mas cerca de ti para que te azote",
       "Imita a alguien del grupo por 30 segundos",
       "Envía el último meme que tienes guardado al chat grupal",
       "Haz tu mejor chiste malo. Si no se ríe nadie, repítelo más fuerte",
@@ -614,6 +613,7 @@ const CHALLENGES = {
       "Siéntate frente a {player_opposite_gender}, mantengan contacto visual durante 1 minuto completo sin hablar ni reírse — al terminar, cada uno dice en voz alta una palabra que describa lo que sintió",
     ],
     2: [
+      "Lame los dedos del que esta a tu costado",
       "Dale un masaje sensual (nuca, hombros, manos...) de 1 minuto a la persona que elijas (si está de acuerdo).",
       "Susúrrale algo (muy) picante al oído a tu vecino/a de la izquierda. Solo él/ella debe oírlo.",
       "Quítate una prenda de ropa (la que elijas, pero empezad suave: calcetín, accesorio, luego quizás camiseta si el ambiente y los jugadores están OK). Parad en cuanto alguien ya no esté cómodo.",
@@ -633,7 +633,7 @@ const CHALLENGES = {
       "Bebe un sorbo de tu bebida de la forma más lenta y sexy posible.",
       "Elige a alguien y dile (sinceramente) qué es lo que te parece más sexy físicamente de él/ella.",
       "Finge tener un orgasmo (sonido y/o expresión facial) de manera teatral.",
-      "Deja que la persona a tu derecha te ponga un mote picante para el resto de la noche. Tienes que usarlo para referirte a ti mismo/a al menos una vez.",
+      "Deja que la persona a tu derecha te ponga un apodo picante para el resto de la noche. Tienes que usarlo para referirte a ti mismo/a al menos una vez.",
       "Acércate mucho a la cara de alguien (¡consintiendo!) y susúrrale algo (cualquier cosa, incluso una receta de cocina), luego aléjate lentamente.",
       "Elige una parte de tu cuerpo (muñeca, hombro, tobillo...) y deja que alguien (¡consintiendo!) deposite un beso ligero ahí.",
       "Enseña (¡brevemente!) la última foto que hiciste con tu móvil, aunque sea normal. Explica el contexto de forma sensual.",
@@ -667,9 +667,7 @@ const CHALLENGES = {
       "Propón un reto -picante- (razonable y consensuado) a la persona que elijas para su próximo turno de -Reto-.",
     ]
   },
-// ===================================================
-//  PREGUNTAS para el juego de trivia
-// ===================================================
+  // =================================================== Preguntas para el juego de trivia===================================================
   trivia: {
     1: [
       { q: "¿Cuál es la danza puneña que representa el triunfo del arcángel sobre el demonio?", opts: ["Diablada", "Morenada", "Caporales", "Sicuris"], ans: 0 },
@@ -741,6 +739,11 @@ const CHALLENGES = {
       { q: "¿Cuántas patas tiene un perro?", opts: ["2","3","4","6"], ans: 2 },
       { q: "¿Cuál es el planeta donde vivimos?", opts: ["Marte","Saturno","Tierra","Venus"], ans: 2 },
       { q: "¿Qué animal hace 'miau'?", opts: ["Perro","Pato","Gato","Vaca"], ans: 2 },
+      { q: "¿Cuál es la lengua materna más hablada del mundo?", opts: ["Inglés", "Español", "Chino mandarín", "Árabe"], ans: 2 },
+      { q: "¿Qué gas es el más abundante en la atmósfera terrestre?", opts: ["Oxígeno", "Nitrógeno", "Dióxido de Carbono", "Hidrógeno"], ans: 1 },
+      { q: "¿Cuál es el libro más vendido de la historia después de la Biblia?", opts: ["Don Quijote", "Harry Potter", "El Principito", "El Señor de los Anillos"], ans: 2 },
+      { q: "¿Cómo se llama el proceso por el cual las plantas crean su alimento?", opts: ["Respiración", "Fotosíntesis", "Fermentación", "Digestión"], ans: 1 },
+      { q: "¿En qué país se encuentra la antigua ciudad de Petra?", opts: ["Egipto", "Jordania", "Turquía", "Grecia"], ans: 1 },
       { q: "¿Cuántos días tiene una semana?", opts: ["5","6","7","8"], ans: 2 },
       { q: "¿De qué color son las bananas maduras?", opts: ["Rojas","Verdes","Azules","Amarillas"], ans: 3 },
       { q: "¿Qué sale del sol por las mañanas?", opts: ["La luna","La lluvia","La luz","Las estrellas"], ans: 2 },
@@ -877,54 +880,54 @@ const CHALLENGES = {
       { q: "¿Qué significa 'like' en redes?", opts: ["Ignorar","Me gusta","Bloquear","Reportar"], ans: 1 },
       { q: "¿Qué significa 'streaming'?", opts: ["Descargar","Transmitir en vivo","Editar","Borrar"], ans: 1 },
       { q: "¿Qué app es de videos cortos?", opts: ["Zoom","TikTok","Drive","Word"], ans: 1 },
-    { q: "¿Qué significa LOL?", opts: ["Triste","Risa","Enojo","Sueño"], ans: 1 },
-    { q: "¿Qué saga incluye Avengers?", opts: ["DC","Marvel","HP","SW"], ans: 1 },
-    { q: "¿Qué app es para música?", opts: ["Spotify","Excel","Word","Drive"], ans: 0 },
-    { q: "¿Qué significa crush?", opts: ["Amigo","Gusto","Enemigo","Nada"], ans: 1 },
-    { q: "¿Qué significa viral?", opts: ["Lento","Popular","Viejo","Privado"], ans: 1 },
-    { q: "¿Qué plataforma es de series?", opts: ["Netflix","Zoom","Drive","Excel"], ans: 0 },
-    { q: "¿Qué significa DM?", opts: ["Mensaje directo","Llamada","Correo","Video"], ans: 0 },
-    { q: "¿Qué juego es battle royale?", opts: ["FIFA","Fortnite","Tetris","Mario"], ans: 1 },
-    { q: "¿Qué significa ghostear?", opts: ["Hablar","Ignorar","Gritar","Reír"], ans: 1 },
-    { q: "¿Qué significa match?", opts: ["Error","Coincidencia","Bloqueo","Nada"], ans: 1 },
-    { q: "¿Qué significa meme?", opts: ["Noticia","Imagen graciosa","Correo","Juego"], ans: 1 },
-    { q: "¿Qué significa AFK?", opts: ["Aquí","Lejos teclado","Rápido","Error"], ans: 1 },
-    { q: "¿Qué significa cringe?", opts: ["Risa","Vergüenza","Enojo","Amor"], ans: 1 },
-    { q: "¿Qué significa sus?", opts: ["Normal","Sospechoso","Seguro","Lento"], ans: 1 },
-    { q: "¿Qué juego es sandbox?", opts: ["FIFA","Minecraft","COD","LOL"], ans: 1 },
-    { q: "¿Cuál es la capital del Perú?", opts: ["Cusco","Lima","Arequipa","Puno"], ans: 1 },
-    { q: "¿Qué lago está en Puno?", opts: ["Titicaca","Baikal","Victoria","Superior"], ans: 0 },
-    { q: "¿Quién proclamó la independencia del Perú?", opts: ["Bolívar","San Martín","Sucre","Castilla"], ans: 1 },
-    { q: "¿Qué moneda se usa en Perú?", opts: ["Peso","Sol","Dólar","Euro"], ans: 1 },
-    { q: "¿Cuál es el plato bandera?", opts: ["Lomo saltado","Ceviche","Causa","Ají"], ans: 1 },
-    { q: "¿Qué cultura hizo Machu Picchu?", opts: ["Maya","Azteca","Inca","Nazca"], ans: 2 },
-    { q: "¿Qué animal está en el escudo?", opts: ["Llama","Vicuña","Puma","Cóndor"], ans: 1 },
-    { q: "¿En qué mes son Fiestas Patrias?", opts: ["Junio","Julio","Agosto","Septiembre"], ans: 1 },
-    { q: "¿Qué ciudad es la Ciudad Blanca?", opts: ["Cusco","Arequipa","Tacna","Ica"], ans: 1 },
-    { q: "¿Qué río pasa por Perú?", opts: ["Nilo","Amazonas","Danubio","Támesis"], ans: 1 },
-    { q: "¿Qué cultura hizo Chan Chan?", opts: ["Inca","Chimú","Nazca","Wari"], ans: 1 },
-    { q: "¿Qué bebida es de uva?", opts: ["Chicha","Pisco","Cerveza","Vino"], ans: 1 },
-    { q: "¿Qué danza es típica?", opts: ["Tango","Marinera","Samba","Flamenco"], ans: 1 },
-    { q: "¿Qué idioma originario es más hablado?", opts: ["Aymara","Quechua","Guaraní","Mapuche"], ans: 1 },
-    { q: "¿Qué desierto está en Perú?", opts: ["Sahara","Sechura","Gobi","Atacama"], ans: 1 },
-    { q: "¿Cuántos planetas hay?", opts: ["7","8","9","10"], ans: 1 },
-    { q: "¿Cuál es el planeta más grande?", opts: ["Tierra","Júpiter","Marte","Venus"], ans: 1 },
-    { q: "¿Qué animal es más rápido?", opts: ["León","Guepardo","Caballo","Tigre"], ans: 1 },
-    { q: "¿Qué país tiene la Torre Eiffel?", opts: ["Italia","España","Francia","Alemania"], ans: 2 },
-    { q: "¿Qué idioma se habla en Brasil?", opts: ["Español","Portugués","Inglés","Francés"], ans: 1 },
-    { q: "¿Cuántos días tiene un año?", opts: ["360","365","366","364"], ans: 1 },
-    { q: "¿Qué órgano bombea sangre?", opts: ["Pulmón","Cerebro","Corazón","Hígado"], ans: 2 },
-    { q: "¿Cuántos lados tiene un triángulo?", opts: ["2","3","4","5"], ans: 1 },
-    { q: "¿Qué gas respiramos?", opts: ["CO2","Oxígeno","Helio","Nitrógeno"], ans: 1 },
-    { q: "¿Qué instrumento mide temperatura?", opts: ["Barómetro","Termómetro","Regla","Balanza"], ans: 1 },
-    { q: "¿Cuál es el océano más grande?", opts: ["Atlántico","Índico","Pacífico","Ártico"], ans: 2 },
-    { q: "¿Qué país es más grande?", opts: ["China","EEUU","Rusia","Canadá"], ans: 2 },
-    { q: "¿Qué vitamina da el sol?", opts: ["A","B","C","D"], ans: 3 },
-    { q: "¿Qué animal vive en agua?", opts: ["Perro","Pez","Gato","Caballo"], ans: 1 },
-    { q: "¿Cuántos colores tiene el arcoíris?", opts: ["5","6","7","8"], ans: 2 },
-    { q: "¿Qué planeta es rojo?", opts: ["Venus","Marte","Júpiter","Saturno"], ans: 1 },
-    { q: "¿Qué instrumento tiene teclas?", opts: ["Guitarra","Piano","Batería","Flauta"], ans: 1 },
-    { q: "¿Qué país inventó la pizza?", opts: ["España","Italia","Francia","Grecia"], ans: 1 },
+      { q: "¿Qué significa LOL?", opts: ["Triste","Risa","Enojo","Sueño"], ans: 1 },
+      { q: "¿Qué saga incluye Avengers?", opts: ["DC","Marvel","HP","SW"], ans: 1 },
+      { q: "¿Qué app es para música?", opts: ["Spotify","Excel","Word","Drive"], ans: 0 },
+      { q: "¿Qué significa crush?", opts: ["Amigo","Gusto","Enemigo","Nada"], ans: 1 },
+      { q: "¿Qué significa viral?", opts: ["Lento","Popular","Viejo","Privado"], ans: 1 },
+      { q: "¿Qué plataforma es de series?", opts: ["Netflix","Zoom","Drive","Excel"], ans: 0 },
+      { q: "¿Qué significa DM?", opts: ["Mensaje directo","Llamada","Correo","Video"], ans: 0 },
+      { q: "¿Qué juego es battle royale?", opts: ["FIFA","Fortnite","Tetris","Mario"], ans: 1 },
+      { q: "¿Qué significa ghostear?", opts: ["Hablar","Ignorar","Gritar","Reír"], ans: 1 },
+      { q: "¿Qué significa match?", opts: ["Error","Coincidencia","Bloqueo","Nada"], ans: 1 },
+      { q: "¿Qué significa meme?", opts: ["Noticia","Imagen graciosa","Correo","Juego"], ans: 1 },
+      { q: "¿Qué significa AFK?", opts: ["Aquí","Lejos teclado","Rápido","Error"], ans: 1 },
+      { q: "¿Qué significa cringe?", opts: ["Risa","Vergüenza","Enojo","Amor"], ans: 1 },
+      { q: "¿Qué significa sus?", opts: ["Normal","Sospechoso","Seguro","Lento"], ans: 1 },
+      { q: "¿Qué juego es sandbox?", opts: ["FIFA","Minecraft","COD","LOL"], ans: 1 },
+      { q: "¿Cuál es la capital del Perú?", opts: ["Cusco","Lima","Arequipa","Puno"], ans: 1 },
+      { q: "¿Qué lago está en Puno?", opts: ["Titicaca","Baikal","Victoria","Superior"], ans: 0 },
+      { q: "¿Quién proclamó la independencia del Perú?", opts: ["Bolívar","San Martín","Sucre","Castilla"], ans: 1 },
+      { q: "¿Qué moneda se usa en Perú?", opts: ["Peso","Sol","Dólar","Euro"], ans: 1 },
+      { q: "¿Cuál es el plato bandera?", opts: ["Lomo saltado","Ceviche","Causa","Ají"], ans: 1 },
+      { q: "¿Qué cultura hizo Machu Picchu?", opts: ["Maya","Azteca","Inca","Nazca"], ans: 2 },
+      { q: "¿Qué animal está en el escudo?", opts: ["Llama","Vicuña","Puma","Cóndor"], ans: 1 },
+      { q: "¿En qué mes son Fiestas Patrias?", opts: ["Junio","Julio","Agosto","Septiembre"], ans: 1 },
+      { q: "¿Qué ciudad es la Ciudad Blanca?", opts: ["Cusco","Arequipa","Tacna","Ica"], ans: 1 },
+      { q: "¿Qué río pasa por Perú?", opts: ["Nilo","Amazonas","Danubio","Támesis"], ans: 1 },
+      { q: "¿Qué cultura hizo Chan Chan?", opts: ["Inca","Chimú","Nazca","Wari"], ans: 1 },
+      { q: "¿Qué bebida es de uva?", opts: ["Chicha","Pisco","Cerveza","Vino"], ans: 1 },
+      { q: "¿Qué danza es típica?", opts: ["Tango","Marinera","Samba","Flamenco"], ans: 1 },
+      { q: "¿Qué idioma originario es más hablado?", opts: ["Aymara","Quechua","Guaraní","Mapuche"], ans: 1 },
+      { q: "¿Qué desierto está en Perú?", opts: ["Sahara","Sechura","Gobi","Atacama"], ans: 1 },
+      { q: "¿Cuántos planetas hay?", opts: ["7","8","9","10"], ans: 1 },
+      { q: "¿Cuál es el planeta más grande?", opts: ["Tierra","Júpiter","Marte","Venus"], ans: 1 },
+      { q: "¿Qué animal es más rápido?", opts: ["León","Guepardo","Caballo","Tigre"], ans: 1 },
+      { q: "¿Qué país tiene la Torre Eiffel?", opts: ["Italia","España","Francia","Alemania"], ans: 2 },
+      { q: "¿Qué idioma se habla en Brasil?", opts: ["Español","Portugués","Inglés","Francés"], ans: 1 },
+      { q: "¿Cuántos días tiene un año?", opts: ["360","365","366","364"], ans: 1 },
+      { q: "¿Qué órgano bombea sangre?", opts: ["Pulmón","Cerebro","Corazón","Hígado"], ans: 2 },
+      { q: "¿Cuántos lados tiene un triángulo?", opts: ["2","3","4","5"], ans: 1 },
+      { q: "¿Qué gas respiramos?", opts: ["CO2","Oxígeno","Helio","Nitrógeno"], ans: 1 },
+      { q: "¿Qué instrumento mide temperatura?", opts: ["Barómetro","Termómetro","Regla","Balanza"], ans: 1 },
+      { q: "¿Cuál es el océano más grande?", opts: ["Atlántico","Índico","Pacífico","Ártico"], ans: 2 },
+      { q: "¿Qué país es más grande?", opts: ["China","EEUU","Rusia","Canadá"], ans: 2 },
+      { q: "¿Qué vitamina da el sol?", opts: ["A","B","C","D"], ans: 3 },
+      { q: "¿Qué animal vive en agua?", opts: ["Perro","Pez","Gato","Caballo"], ans: 1 },
+      { q: "¿Cuántos colores tiene el arcoíris?", opts: ["5","6","7","8"], ans: 2 },
+      { q: "¿Qué planeta es rojo?", opts: ["Venus","Marte","Júpiter","Saturno"], ans: 1 },
+      { q: "¿Qué instrumento tiene teclas?", opts: ["Guitarra","Piano","Batería","Flauta"], ans: 1 },
+      { q: "¿Qué país inventó la pizza?", opts: ["España","Italia","Francia","Grecia"], ans: 1 },
 
     ],
     2: [
@@ -1028,9 +1031,7 @@ const CHALLENGES = {
       { q: "¿En qué ciudad se firmó la Declaración de Independencia de EE.UU.?", opts: ["Boston","Nueva York","Washington","Filadelfia"], ans: 3 },
     ]
   },
-// ===================================================
-//  YO NUNCA NUNCA — banco de preguntas
-// ===================================================
+  // =================================================== Yo nunca nunca===================================================
   never: {
     1: [
       "Yo nunca he llegado tarde a algo importante",
@@ -1280,9 +1281,7 @@ const CHALLENGES = {
       "Nunca he jugado al 'strip poker'.",
           ]
   },
-// ===================================================
-//  QUIEN — banco de preguntas
-// ===================================================
+  // =================================================== Preguntas de quien es mas probable===================================================
   who: {
     1: [
       "¿Quién del grupo sería el primero en rendirse en una caminata?",
@@ -2139,11 +2138,11 @@ const IMPOSTOR_ALL_WORDS = Object.values(IMPOSTOR_WORDS).flat();
 
 const SPECIAL_CARDS = [
   { id:'double1', type:'double', icon:'🔥', title:'¡DOBLE O NADA!',
-    desc:'El próximo shot que reciba alguien este turno vale el DOBLE. La suerte está echada.' },
+    desc:'El próximo castigo de este turno se duplica: de 1–3 a 2–6 shots.' },
   { id:'double2', type:'double', icon:'⚡', title:'APUESTA MÁXIMA',
-    desc:'Si el jugador activo falla o pasa, toma 3 shots en vez de 1. ¿Tenés el valor?' },
+    desc:'Si te toca tomar este turno, duplicas la cantidad: 1 se convierte en 2, 2 en 4 y 3 en 6 shots.' },
   { id:'double3', type:'double', icon:'💥', title:'RIESGO TOTAL',
-    desc:'Este turno los shots se multiplican x2. Sin excepciones.' },
+    desc:'Este turno los shots se multiplican x2, hasta un máximo de 6.' },
   { id:'all1',    type:'all',    icon:'💀', title:'LA MESA PAGA',
     desc:'Todos — sin excepción — toman 1 shot ahora mismo. Ni uno se salva.' },
   { id:'all2',    type:'all',    icon:'🌊', title:'OLA DE SHOTS',
@@ -2163,6 +2162,7 @@ const SPECIAL_CARDS = [
 ];
 
 let state = {
+  basta: null,
   players: [],
   mode: 'truth',
   intensity: 2,   // 2=Amigos, 3=Picante, 4=Salvaje(mix)
@@ -2172,7 +2172,6 @@ let state = {
   challengesDone: 0,
   maxChallenges: 0,
   usedChallenges: { truth:[],dare:[], trivia:[], never:[], who:[] },
-  scores: {},
   fingerState: {},        // for never mode
   hotVote: null,
   currentTrivia: null,
@@ -2189,7 +2188,6 @@ let state = {
   pendingShotCallback: null,
   // VS mode
   vsTeamM: [], vsTeamF: [],
-  vsScoreM: 0, vsScoreF: 0,
   vsAttacking: 'm',
   vsPlayerM: 0, vsPlayerF: 0,
   vsUsedM: [], vsUsedF: [],
@@ -2219,14 +2217,42 @@ const AVATAR_COLORS = [
 function avatarColor(i) { return AVATAR_COLORS[i % AVATAR_COLORS.length]; }
 function initials(name) { return name.slice(0,2).toUpperCase(); }
 
+function escapeHtml(value) {
+  return String(value).replace(/[&<>"']/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;'}[c]));
+}
+
+// Los callbacks de una partida anterior no deben abrir modales en otra pantalla.
+const gameTimeouts = new Set();
+function gameTimeout(callback, delay) {
+  const id = setTimeout(() => { gameTimeouts.delete(id); callback(); }, delay);
+  gameTimeouts.add(id);
+  return id;
+}
+function cancelGameAnimations() {
+  bastaStopTimer();
+  gameTimeouts.forEach(clearTimeout);
+  gameTimeouts.clear();
+  clearTimeout(shotSpinInterval);
+  clearInterval(todiSpinInterval);
+  sfxSpinStop();
+  state.pendingShotCallback = null;
+  state._specialCallback = null;
+  _confirmCallback = null;
+}
+
 // ===================================================
 //  NAVIGATION
 // ===================================================
 function goTo(id) {
   clearTriviaTimer();
+  cancelGameAnimations();
+  resetGameUI();
+  document.getElementById('confirm-overlay').classList.remove('show');
+  document.getElementById('impostor-role-overlay').classList.remove('show');
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById('screen-'+id).classList.add('active');
-  if (id === 'modes') { setTimeout(() => { cfLayout(); cfRender(false); }, 50); }
+  if (id === 'modes') { cfIndex = CF_MODES.indexOf(state.mode); setTimeout(() => { cfLayout(); cfRender(false); }, 50); }
+  if (id === 'home') updateResumeButton();
 }
 
 // ===================================================
@@ -2236,6 +2262,9 @@ function goTo(id) {
 //  o finalizadas) persistan al querer empezar de cero.
 // ===================================================
 function startNewGame() {
+  closeMenu();
+  closePlayerModal();
+  clearSave();
   state.players = [];
   state.totalRounds = Infinity;
   resetGameState(); // hace todo el resto
@@ -2254,7 +2283,7 @@ function showHowTo() {
 //  PLAYERS
 // ===================================================
 const EMOJI_SETS = {
-  m: ['😎','🤠','🎃','🎓','💰','🧨','🎉','🎧','🎹','🦊','🐺','🐻','🦁','🐯','🦅','🤖','👾','🎸'],
+  m: ['🎵','🚀','🎃','🎓','💰','🧨','🎉','🎧','🎹','🦊','🐺','🐻','🦁','🐯','🦅','🤖','👾','🎸'],
   f: ['🐥','🐸','🐭','🐰','🐌','🐶','🐹','🐼','🧚','🦋','🌸','🐾','🦄','🐱','🦊','🐽','👑','🌙'],
   o: ['🐍','✨','🎭','🎪','🎨','🎯','🔮','💎','🌊','🍀','⚡','🔥','💫','🎲','🎠','🛸','🧿','🎋'],
 };
@@ -2276,7 +2305,7 @@ let playerModalState = { gender: null, emoji: null };
 //  previo del formulario antes de mostrarse.
 // ===================================================
 function openPlayerModal() {
-  if (state.players.length >= 20) return showToast('Máximo 20 jugadores');
+  if (state.players.length >= MAX_PLAYERS) return showToast(`Máximo ${MAX_PLAYERS} jugadores`);
   playerModalState = { gender: null, emoji: null };
 
   const input = document.getElementById('player-modal-input');
@@ -2302,6 +2331,7 @@ function closePlayerModal(e) {
   if (e && e.target !== document.getElementById('player-modal-overlay')) return;
   const overlay = document.getElementById('player-modal-overlay');
   overlay.classList.remove('show');
+  state._addingMidGame = false;
 }
 
 function selectGender(g) {
@@ -2358,6 +2388,7 @@ function updatePlayerPreview() {
 //  del género seleccionado. Puede usarse en mid-game.
 // ===================================================
 function confirmAddPlayer() {
+  if (state.players.length >= MAX_PLAYERS) return showToast(`Máximo ${MAX_PLAYERS} jugadores`);
   const name = document.getElementById('player-modal-input').value.trim();
   if (!name) return showToast('Escribe un nombre primero');
   if (state.players.find(p => p.name.toLowerCase() === name.toLowerCase()))
@@ -2371,7 +2402,7 @@ function confirmAddPlayer() {
     playerModalState.emoji = pool[Math.floor(Math.random() * pool.length)];
   }
 
-  state.players.push({name,gender: playerModalState.gender,emoji: playerModalState.emoji,score: 0,});
+  state.players.push({name,gender: playerModalState.gender,emoji: playerModalState.emoji,});
   document.getElementById('player-modal-overlay').classList.remove('show');
 
   // if adding mid-game, update game state too
@@ -2379,8 +2410,8 @@ function confirmAddPlayer() {
     state._addingMidGame = false;
     state.shots[name] = 0;
     state.fingerState[name] = true;
-    state.maxChallenges += state.totalRounds;
-    renderPlayersStrip();
+    state.maxChallenges = state.players.length * state.totalRounds;
+    refreshRoster();
     showToast(`${name} se unió a la partida 🎉`);
     saveGame();
   } else {
@@ -2399,10 +2430,10 @@ function renderPlayers() {
     div.style.animation = 'slideIn 0.25s ease';
     div.innerHTML = `
       <div class="player-emoji-avatar" style="background:${colors.bg};border-color:${colors.border}">
-        ${p.emoji || initials(p.name)}
+        ${escapeHtml(p.emoji || initials(p.name))}
       </div>
       <div style="flex:1">
-        <div class="player-name-text">${p.name}</div>
+        <div class="player-name-text">${escapeHtml(p.name)}</div>
         <div class="player-gender-badge">${p.gender ? GENDER_LABELS[p.gender] : ''}</div>
       </div>
       <button class="player-remove" onclick="removePlayer(${i})">✕</button>
@@ -2431,10 +2462,10 @@ const MODE_TUTORIALS = {
   truth: {
     icon: '🤫', title: 'VERDAD O RETO', color: 'var(--truth-color)',
     rules: [
-      '🎯 Los turnos alternan: primero Verdad, luego Reto.',
+      '🎯 En cada turno eliges Verdad o Reto.',
       '💬 Verdad: debes responder honestamente o tomar shots.',
       '🎪 Reto: completa la acción o el grupo decide si tomás.',
-      '⏭ "Pasar" es posible pero cuesta un shot.'
+      '⏭ "Pasar" es posible pero cuesta los shots que indique la ruleta.'
     ]
   },
   who: {
@@ -2470,7 +2501,7 @@ const MODE_TUTORIALS = {
       '🎲 Cada jugador gira la ruleta en su turno.',
       '🅃 T = Tú tomás. 🅾 O = Ordenas a alguien.',
       '🄳 D = El de tu derecha toma. 🄸 I = El de tu izquierda.',
-      '🔄 Los turnos rotan automáticamente entre todos.'
+      '🔄 Pulsa "Siguiente turno" para pasar al siguiente jugador.'
     ]
   },
   vs: {
@@ -2478,8 +2509,18 @@ const MODE_TUTORIALS = {
     rules: [
       '♂♀ Los equipos se forman por el género que registraste.',
       '🎤 Un jugador del equipo atacante responde la pregunta.',
-      '✅ Si acierta, +10 pts para su equipo.',
+      '✅ Si acierta, el turno pasa al otro equipo.',
       '❌ Si falla, TODO su equipo toma shots.'
+    ]
+  },
+  basta: {
+    icon: '🔤', title: 'BASTA', color: 'var(--basta-color)',
+    rules: [
+      '🎲 Una categoría para toda la ronda, al azar o escrita por el grupo.',
+      '🔤 Elige una letra disponible de la A a la Z y di una respuesta con esa inicial.',
+      '⏱ Elige 15, 30 o 45 segundos por turno antes de comenzar. Responde y pulsa el centro dentro de ese tiempo para confirmar la letra y pasar.',
+      '🚫 Las letras confirmadas no se repiten. Un error o el tiempo agotado terminan la ronda.',
+      '🤝 Si se usan las 26 letras, el grupo completa la ronda.'
     ]
   },
   impostor: {
@@ -2507,7 +2548,7 @@ function selectMode(mode) {
   if (card) card.classList.add('selected');
 
   // hide intensity for modes that don't use it
-  const noIntensity = ['todi', 'impostor','vs'];
+  const noIntensity = ['todi', 'impostor','vs', 'basta'];
   const intensityRow = document.getElementById('intensity-row');
   const settingsPanel = document.getElementById('modes-settings-panel');
   if (intensityRow) intensityRow.style.display = noIntensity.includes(mode) ? 'none' : 'flex';
@@ -2557,8 +2598,12 @@ const SAVE_KEY = 'chispa_save_v1';
 //  si se cierra la app, pueda reanudarse desde donde quedó.
 // ===================================================
 function saveGame() {
+  if (state.players.length < 2) return;
+  const screen = document.querySelector('.screen.active')?.id;
+  if (!['screen-game', 'screen-vs', 'screen-todi', 'screen-impostor', 'screen-basta'].includes(screen)) return;
   try {
     const save = {
+      basta: state.basta,
       players: state.players,
       mode: state.mode,
       intensity: state.intensity,
@@ -2570,8 +2615,6 @@ function saveGame() {
       usedChallenges: state.usedChallenges,
       shots: state.shots,
       fingerState: state.fingerState,
-      vsScoreM: state.vsScoreM,
-      vsScoreF: state.vsScoreF,
       vsTeamM: state.vsTeamM,
       vsTeamF: state.vsTeamF,
       vsAttacking: state.vsAttacking,
@@ -2579,6 +2622,18 @@ function saveGame() {
       vsPlayerF: state.vsPlayerF,
       vsRound: state.vsRound,
       vsMaxRounds: state.vsMaxRounds,
+      vsUsedM: state.vsUsedM,
+      vsUsedF: state.vsUsedF,
+      todiTurnCount,
+      impostorWord: state.impostorWord,
+      impostorImpostors: state.impostorImpostors,
+      impostorUsedWords: state.impostorUsedWords,
+      activeChallenge: state.activeChallenge,
+      currentTruthDareType: state.currentTruthDareType,
+      specialUsedIds: state.specialUsedIds,
+      doubleActive: state.doubleActive,
+      redirectActive: state.redirectActive,
+      redirectTarget: state.redirectTarget,
       screen: document.querySelector('.screen.active')?.id || 'screen-home',
       savedAt: Date.now()
     };
@@ -2596,6 +2651,10 @@ function loadSave() {
     const raw = localStorage.getItem(SAVE_KEY);
     if (!raw) return null;
     const save = JSON.parse(raw);
+    if (!save || !Array.isArray(save.players) || save.players.length < 2 || save.players.length > MAX_PLAYERS ||
+        !save.players.every(p => p && typeof p.name === 'string' && p.name.trim() && ['m','f','o'].includes(p.gender)) ||
+        new Set(save.players.map(p => p.name.toLowerCase())).size !== save.players.length ||
+        !CF_MODES.includes(save.mode) || !Number.isFinite(save.savedAt)) return null;
     // only offer resume if saved less than 12 hours ago
     if (Date.now() - save.savedAt > 12 * 60 * 60 * 1000) { localStorage.removeItem(SAVE_KEY); return null; }
     return save;
@@ -2605,46 +2664,76 @@ function loadSave() {
 function resumeGame() {
   const save = loadSave();
   if (!save) return showToast('No hay partida guardada');
+  resetGameState();
   // restore state
-  state.players = save.players;
+  state.players = save.players.map(({score, ...player}) => player);
   state.mode = save.mode;
   state.intensity = save.intensity;
   state.totalRounds = save.totalRounds === 'Infinity' ? Infinity : (save.totalRounds || Infinity);
-  state.currentPlayerIndex = save.currentPlayerIndex;
+  state.currentPlayerIndex = Math.max(0, Math.min(save.currentPlayerIndex || 0, save.players.length - 1));
   state.round = save.round;
   state.challengesDone = save.challengesDone;
   state.maxChallenges = save.maxChallenges === 'Infinity' ? Infinity : (save.maxChallenges || Infinity);
   state.usedChallenges = save.usedChallenges || { truth:[], dare:[], trivia:[], never:[], who:[] };
   state.shots = save.shots || {};
   state.fingerState = save.fingerState || {};
-  state.vsScoreM = save.vsScoreM || 0;
-  state.vsScoreF = save.vsScoreF || 0;
   state.vsTeamM = save.vsTeamM || [];
   state.vsTeamF = save.vsTeamF || [];
   state.vsAttacking = save.vsAttacking || 'm';
   state.vsPlayerM = save.vsPlayerM || 0;
   state.vsPlayerF = save.vsPlayerF || 0;
   state.vsRound = save.vsRound || 0;
-  state.vsMaxRounds = save.vsMaxRounds || 0;
+  state.vsMaxRounds = save.vsMaxRounds == null ? Infinity : save.vsMaxRounds;
+  state.vsUsedM = save.vsUsedM || [];
+  state.vsUsedF = save.vsUsedF || [];
+  state.specialUsedIds = save.specialUsedIds || [];
+  state.activeChallenge = save.activeChallenge || null;
+  state.currentTruthDareType = save.currentTruthDareType || null;
+  state.impostorWord = save.impostorWord;
+  state.impostorImpostors = save.impostorImpostors || [];
+  state.impostorUsedWords = save.impostorUsedWords || [];
+  setIntensity(save.intensity || 2);
 
   // navigate to correct screen
   const screenId = save.screen || 'screen-game';
-  if (screenId === 'screen-vs') {
+  if (screenId === 'screen-basta') {
+    resumeBasta(save.basta);
+  } else if (screenId === 'screen-vs') {
     goTo('vs');
     vsRenderBanners();
     vsDrawQuestion();
   } else if (screenId === 'screen-todi') {
     startTodi();
+    todiTurnCount = save.todiTurnCount || 0;
+    renderTodiStrip();
+  } else if (screenId === 'screen-impostor') {
+    goTo('impostor');
+    impostorNewRound(Boolean(state.impostorWord && state.impostorImpostors.length));
+    showToast('Ronda recuperada: vuelve a repartir los mismos roles');
+    return;
   } else {
     goTo('game');
     renderPlayersStrip();
-    drawChallenge();
+    state._resumeChallenge = Boolean(state.activeChallenge);
+    drawChallenge(true);
+    state.doubleActive = Boolean(save.doubleActive);
+    state.redirectActive = Boolean(save.redirectActive);
+    state.redirectTarget = save.redirectTarget || null;
   }
+  saveGame();
   showToast('Partida recuperada ✅');
 }
 
 function clearSave() {
   try { localStorage.removeItem(SAVE_KEY); } catch(e) {}
+  updateResumeButton();
+}
+
+function updateResumeButton() {
+  const save = loadSave();
+  const btn = document.getElementById('btn-resume');
+  btn.style.display = save ? 'block' : 'none';
+  if (save) btn.textContent = `▶ Continuar partida (${save.players.map(p => p.name).join(', ')})`;
 }
 
 // ===================================================
@@ -2661,9 +2750,9 @@ function renderMenuPlayers() {
     row.className = 'menu-player-row';
     row.innerHTML = `
       <div class="menu-player-avatar" style="background:${colors.bg};border-color:${colors.border}">
-        ${p.emoji || initials(p.name)}
+        ${escapeHtml(p.emoji || initials(p.name))}
       </div>
-      <div class="menu-player-name">${p.name}</div>
+      <div class="menu-player-name">${escapeHtml(p.name)}</div>
       <button class="menu-player-remove" onclick="menuRemovePlayer(${i})" title="Eliminar">✕</button>
     `;
     list.appendChild(row);
@@ -2673,30 +2762,64 @@ function renderMenuPlayers() {
 function menuRemovePlayer(i) {
   if (state.players.length <= 2) return showToast('Mínimo 2 jugadores');
   const name = state.players[i].name;
+  const currentName = state.players[state.currentPlayerIndex]?.name;
   state.players.splice(i, 1);
   // keep currentPlayerIndex valid
-  if (state.currentPlayerIndex >= state.players.length) state.currentPlayerIndex = 0;
+  const currentIndex = state.players.findIndex(p => p.name === currentName);
+  state.currentPlayerIndex = currentIndex >= 0 ? currentIndex : i % state.players.length;
+  delete state.shots[name];
+  delete state.fingerState[name];
   renderMenuPlayers();
-  renderPlayersStrip();
+  closeMenu();
+  refreshRoster();
   showToast(`${name} eliminado`);
   saveGame();
 }
 
+function refreshRoster() {
+  clearTriviaTimer();
+  cancelGameAnimations();
+  state.maxChallenges = state.players.length * state.totalRounds;
+  if (state.mode === 'todi') {
+    todiTurnIndex = state.currentPlayerIndex;
+    renderTodiStrip();
+    resetTodiCard();
+  } else if (state.mode === 'basta') {
+    startBasta();
+    showToast('La lista cambió. Prepara una nueva ronda de Basta.');
+  } else if (state.mode === 'vs') {
+    if (!canStartMode('vs')) { goTo('modes'); return; }
+    // Cambiar los equipos inicia una nueva partida VS para mantener turnos válidos.
+    startVs();
+  } else if (state.mode === 'impostor') {
+    if (!canStartMode('impostor')) { goTo('modes'); return; }
+    impostorNewRound();
+  } else {
+    renderPlayersStrip();
+    drawChallenge();
+  }
+}
+
 function menuAddPlayer() {
+  if (state.players.length >= MAX_PLAYERS) return showToast(`Máximo ${MAX_PLAYERS} jugadores`);
   closeMenu();
   state._addingMidGame = true;
   openPlayerModal();
 }
 
 function resetGameState() {
+  cancelGameAnimations();
+  state.basta = null;
+  state._addingMidGame = false;
+  state.activeChallenge = null;
+  state._resumeChallenge = false;
   state.currentPlayerIndex = 0;
   state.round = 1;
   state.challengesDone = 0;
   state.usedChallenges = { truth: [],dare:[], trivia: [], never: [], who: [] };
-  state.scores = {};
-  state.players.forEach(p => { p.score = 0; });
-  state.fingerState = {};
-  state.shots = {};
+  state.players.forEach(p => { delete p.score; });
+  state.fingerState = Object.create(null);
+  state.shots = Object.create(null);
   state.currentTrivia = null;
   state.triviaAnswered = false;
   state.triviaPickChosen = null;
@@ -2705,14 +2828,12 @@ function resetGameState() {
   state.doubleActive = false;
   state.redirectActive = false;
   state.redirectTarget = null;
-  state.vsScoreM = 0;
-  state.vsScoreF = 0;
   state.vsUsedM = [];
   state.vsUsedF = [];
   state.impostorWord = null;
   state.impostorImpostors = [];
   state.impostorHints = [];
-  state.impostorVotes = {};
+  state.impostorVotes = Object.create(null);
   state.impostorUsedWords = [];
   state.currentTruthDareType = null;
   state.players.forEach(p => {
@@ -2732,10 +2853,13 @@ function resetGameState() {
 // ===================================================
 function startGame() {
   if (!state.mode) return showToast('Elige un modo de juego');
+  if (!canStartMode(state.mode)) return;
   resetGameState(); // ← hace todo el reset
   state.maxChallenges = state.players.length * state.totalRounds;
 
-  if (state.mode === 'todi') {
+  if (state.mode === 'basta') {
+    startBasta();
+  } else if (state.mode === 'todi') {
     startTodi();
   } else if (state.mode === 'vs') {
     startVs();
@@ -2746,6 +2870,19 @@ function startGame() {
     renderPlayersStrip();
     drawChallenge();
   }
+}
+
+function canStartMode(mode) {
+  if (state.players.length < 2) { showToast('Agrega al menos 2 jugadores'); return false; }
+  if (mode === 'impostor' && state.players.length < 3) { showToast('El Impostor necesita al menos 3 jugadores'); return false; }
+  if (mode === 'vs') {
+    const neutral = state.players.filter(p => p.gender === 'o').length;
+    if ((!state.players.some(p => p.gender === 'm') && !neutral) ||
+        (!state.players.some(p => p.gender === 'f') && !neutral)) {
+      showToast('VS necesita jugadores en ambos equipos'); return false;
+    }
+  }
+  return true;
 }
 
 // ===================================================
@@ -2763,8 +2900,8 @@ function renderPlayersStrip() {
     wrap.innerHTML = `
       <div class="strip-avatar${i === state.currentPlayerIndex ? ' current' : ''}"
            style="background:${colors.bg};border-color:${i === state.currentPlayerIndex ? '#fff' : colors.border};font-size:${p.emoji ? '18px' : '14px'}"
-      >${p.emoji || initials(p.name)}</div>
-      <div class="strip-name">${p.name}</div>
+      >${escapeHtml(p.emoji || initials(p.name))}</div>
+      <div class="strip-name">${escapeHtml(p.name)}</div>
     `;
     strip.appendChild(wrap);
   });
@@ -2797,6 +2934,10 @@ function updateStrip() {
    *   Esto garantiza que nunca se repita una pregunta hasta haberlas visto todas.
    */
 function pickChallenge(type) {
+  if (state._resumeChallenge && state.activeChallenge?.type === type) {
+    state._resumeChallenge = false;
+    return state.activeChallenge.value;
+  }
   // Seleccionar el pool según intensidad
   let pool;
   if (state.intensity === 4) {
@@ -2865,7 +3006,8 @@ function pickChallenge(type) {
 //  (25% de probabilidad en modos compatibles).
 //  Resetea modificadores de turno (doble shot, redirigir).
 // ===================================================
-function drawChallenge() {
+function drawChallenge(resuming = false) {
+  if (!resuming) { state.activeChallenge = null; state.currentTruthDareType = null; }
   const p = state.players[state.currentPlayerIndex];
   document.getElementById('turn-player-name').textContent = p.name;
   document.getElementById('round-num').textContent = state.round;
@@ -2877,7 +3019,8 @@ function drawChallenge() {
   state.redirectTarget = null;
 
   // maybe show a special card first, then render the challenge
-  maybeShowSpecialCard(() => _drawChallengeContent());
+  if (resuming) _drawChallengeContent();
+  else maybeShowSpecialCard(() => _drawChallengeContent());
 }
 
 function resetGameUI() {
@@ -2941,7 +3084,10 @@ function _drawChallengeContent() {
 
   if (state.mode === 'truth') {
     showTruthDareChoice();
+    if (state._resumeChallenge && state.currentTruthDareType) chooseType(state.currentTruthDareType);
+    else saveGame();
     return;
+
   } else if (state.mode === 'trivia') {
   cardClass = 'card-trivia';
   label = 'TRIVIA 🧠';
@@ -2985,9 +3131,9 @@ function _drawChallengeContent() {
       const idx = state.players.indexOf(pl);
       const [bg] = avatarColor(idx);
       html += `<div class="finger-wrap">
-        <div class="finger-btn" id="finger-${pl.name}" onclick="toggleFinger('${pl.name}', this)"
+        <div class="finger-btn" id="finger-${idx}" onclick="toggleFinger(state.players[${idx}].name, this)"
              style="border-color:${bg}">☝️</div>
-        <div class="finger-name">${pl.name}</div>
+        <div class="finger-name">${escapeHtml(pl.name)}</div>
       </div>`;
     });
     html += '</div><div style="font-size:11px;color:var(--text-dim);margin-top:8px;text-align:center">Baja el dedo si sí lo hiciste</div>';
@@ -3000,7 +3146,7 @@ function _drawChallengeContent() {
     document.getElementById('game-mode-badge').style.color = 'var(--who-color)';
     document.getElementById('game-mode-badge').textContent = '¿QUIÉN?';
     // reset votes
-    state.whoVotes = {};
+    state.whoVotes = Object.create(null);
     state.players.forEach(pl => { state.whoVotes[pl.name] = 0; });
     state.whoVoterIndex = 0;
     state.whoSelectedVote = null;
@@ -3019,6 +3165,8 @@ function _drawChallengeContent() {
   sfxCard();
   typeLabel.textContent = label;
   textEl.textContent = text;
+  state.activeChallenge = {type: state.mode, value: state.mode === 'trivia' ? state.currentTrivia : text};
+  saveGame();
 
   // hide action buttons in trivia (answer taps handle flow) and never (finger taps handle shots, button handles advance)
   const actionsEl = document.querySelector('.game-actions');
@@ -3061,7 +3209,7 @@ function answerTrivia(chosenIdx) {
   const won = chosenIdx === correct;
   if (won) sfxCorrect(); else sfxWrong();
 
-  setTimeout(() => {
+  gameTimeout(() => {
     if (won) {
       // player won — show pick-someone overlay
       showTriviaPickOverlay(currentPlayer.name);
@@ -3087,13 +3235,14 @@ function showTriviaPickOverlay(winnerName) {
   const targets = document.getElementById('trivia-pick-targets');
   targets.innerHTML = '';
   state.players.forEach((pl, pi) => {
+    if (pl.name === winnerName) return;
     const [bg] = avatarColor(pi);
     const colors = pl.gender ? GENDER_COLORS[pl.gender] : { border: bg, bg };
     const div = document.createElement('div');
     div.className = 'who-secret-option';
     div.innerHTML = `
-      <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};align-items:center;justify-content:center;font-size:${pl.emoji?'17px':'13px'};flex-shrink:0">${pl.emoji || initials(pl.name)}</span>
-      <span style="flex:1">${pl.name}</span>
+      <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};align-items:center;justify-content:center;font-size:${pl.emoji?'17px':'13px'};flex-shrink:0">${escapeHtml(pl.emoji || initials(pl.name))}</span>
+      <span style="flex:1">${escapeHtml(pl.name)}</span>
       ${pl.gender ? `<span style="font-size:10px;color:var(--text-dim)">${GENDER_LABELS[pl.gender]}</span>` : ''}
     `;
     div.onclick = () => triviaPickTarget(pl.name, div);
@@ -3119,7 +3268,6 @@ function confirmTriviaPick() {
   document.getElementById('trivia-pick-overlay').classList.remove('show');
 
   const proceed = () => {
-    state.players[state.currentPlayerIndex].score += 15;
     state.challengesDone++;
     if (state.challengesDone >= state.maxChallenges) { clearSave(); showResults(); return; }
     state.currentPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
@@ -3133,7 +3281,7 @@ function confirmTriviaPick() {
 function startWhoVoting() {
   state.whoVoterIndex = 0;
   state.whoSelectedVote = null;
-  state.whoVotes = {};   // ← AGREGAR: limpiar votos al iniciar
+  state.whoVotes = Object.create(null);
   showWhoVoterTurn();
   document.getElementById('who-voting-overlay').classList.add('show');
   document.getElementById('who-voter-phase').style.display = 'flex';
@@ -3169,8 +3317,8 @@ function showWhoVoterTurn() {
     div.className = 'who-secret-option';
     div.id = 'who-sopt-' + pi;
     div.innerHTML = `
-      <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};align-items:center;justify-content:center;font-size:${pl.emoji?'17px':'13px'};flex-shrink:0">${pl.emoji || initials(pl.name)}</span>
-      <span style="flex:1">${pl.name}</span>
+      <span style="display:inline-flex;width:32px;height:32px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};align-items:center;justify-content:center;font-size:${pl.emoji?'17px':'13px'};flex-shrink:0">${escapeHtml(pl.emoji || initials(pl.name))}</span>
+      <span style="flex:1">${escapeHtml(pl.name)}</span>
       ${pl.gender ? `<span style="font-size:10px;color:var(--text-dim)">${GENDER_LABELS[pl.gender]}</span>` : ''}
     `;
     div.onclick = () => selectWhoOption(pl.name, pi);
@@ -3251,7 +3399,7 @@ function showWhoReveal() {
     const row = document.createElement('div');
     row.className = 'who-tally-row';
     row.innerHTML = `
-      <div class="who-tally-name" style="color:${isHighlighted ? 'var(--who-color)' : 'var(--text)'};font-weight:${isHighlighted ? '700' : '400'}">${name}</div>
+      <div class="who-tally-name" style="color:${isHighlighted ? 'var(--who-color)' : 'var(--text)'};font-weight:${isHighlighted ? '700' : '400'}">${escapeHtml(name)}</div>
       <div class="who-tally-bar-wrap">
         <div class="who-tally-bar" style="width:0%;background:${isHighlighted ? 'var(--who-color)' : bg}"></div>
       </div>
@@ -3273,11 +3421,10 @@ function whoRevealShot() {
   // ← AGREGAR: limpiar estado de fases para la próxima ronda
   document.getElementById('who-reveal-phase').classList.remove('visible');
   document.getElementById('who-voter-phase').style.display = '';
-  state.whoVotes = {};        // ← limpiar votos
+  state.whoVotes = Object.create(null);        // ← limpiar votos
   state.whoVoterIndex = 0;   // ← resetear índice
 
   const proceed = () => {
-    state.players[state.currentPlayerIndex].score += 10;
     state.challengesDone++;
     if (state.challengesDone >= state.maxChallenges) { clearSave(); showResults(); return; }
     state.currentPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
@@ -3332,7 +3479,6 @@ function resolveAndNext() {
   const p = state.players[state.currentPlayerIndex];
 
   const proceed = () => {
-    state.players[state.currentPlayerIndex].score += 10;
     state.challengesDone++;
     if (state.challengesDone >= state.maxChallenges) { clearSave(); showResults(); return; }
     state.currentPlayerIndex = (state.currentPlayerIndex + 1) % state.players.length;
@@ -3404,8 +3550,10 @@ function skipChallenge() {
 // ===================================================
 let shotSpinInterval = null;
 
+const MAX_SHOTS = 3;
+
 function randomShots() {
-  return Math.floor(Math.random() * 4) + 1; // 1–4
+  return Math.floor(Math.random() * MAX_SHOTS) + 1; // 1–3
 }
 
 // ===================================================
@@ -3416,26 +3564,27 @@ function randomShots() {
 //  activos: doble shot (×2) y redirigir (cambia target).
 //  Al confirmar ejecuta el callback para continuar.
 // ===================================================
-function showShot(playerName, reason, count, callback) {
+function showShot(playerName, reason, count, callback, {record = true, applyModifiers = true, celebration = false} = {}) {
   // apply special card modifiers
   let finalTarget = playerName;
   let finalReason = reason;
-  let finalCount  = count;
+  let finalCount = Math.min(MAX_SHOTS, Math.max(1, Math.floor(Number(count == null ? randomShots() : count) || 1)));
+  const shotMultiplier = applyModifiers && state.doubleActive ? 2 : 1;
 
-  if (state.doubleActive) {
+  if (applyModifiers && state.doubleActive) {
     state.doubleActive = false;
-    finalCount = (finalCount == null) ? null : finalCount * 2;
+    finalCount *= 2;
     finalReason = '🔥 DOBLE — ' + finalReason;
   }
 
-  if (state.redirectActive && playerName === state.players[state.currentPlayerIndex]?.name) {
+  if (applyModifiers && state.redirectActive && playerName === state.players[state.currentPlayerIndex]?.name) {
     state.redirectActive = false;
     finalTarget = state.redirectTarget || playerName;
     finalReason = '🎯 REDIRIGIDO — ' + finalReason;
   }
 
-  const fc = (finalCount === null || finalCount === undefined) ? randomShots() : finalCount;
-  state.shots[finalTarget] = (state.shots[finalTarget] || 0) + fc;
+  const fc = finalCount;
+  if (record) state.shots[finalTarget] = (state.shots[finalTarget] || 0) + fc;
   state.pendingShotCallback = callback || null;
 
   // set player and reason — show emoji if available
@@ -3443,11 +3592,16 @@ function showShot(playerName, reason, count, callback) {
   const shotEmoji = shotPlayer && shotPlayer.emoji ? shotPlayer.emoji + ' ' : '';
   document.getElementById('shot-player-name').textContent = shotEmoji + finalTarget;
   document.getElementById('shot-reason').textContent = finalReason;
+  const currentPlayer = state.players[state.currentPlayerIndex];
+  document.getElementById('shot-turn-context').textContent = celebration ? '1 shot por persona · ¡Salud!' : currentPlayer ? `turno de ${currentPlayer.name}` : '';
+  document.querySelector('#shot-overlay .shot-title').textContent = celebration ? '¡Todos ganaron!' : '¡SHOT!';
+  document.querySelector('#shot-overlay .shot-glass').textContent = celebration ? '🥂' : '🥃';
 
   // reset display state
   const display   = document.getElementById('shot-number-display');
   const glassRow  = document.getElementById('shot-glasses-row');
   const confirmBtn = document.getElementById('shot-confirm-btn');
+  confirmBtn.textContent = celebration ? '¡Brindamos! 🥂' : 'Lo tomé 🤙';
   const ringSpinner = document.getElementById('shot-ring-spin');
 
   display.textContent = '?';
@@ -3468,8 +3622,8 @@ function showShot(playerName, reason, count, callback) {
   function scheduleTick() {
     shotSpinInterval = setTimeout(() => {
       tick++;
-      // cycle 1→2→3→4→1...
-      display.textContent = (tick % 4) + 1;
+      // Castigo normal: 1–3; duplicador: 2, 4 o 6.
+      display.textContent = ((tick % MAX_SHOTS) + 1) * shotMultiplier;
 
       // slow down near the end for drama
       const elapsed = tick * interval;
@@ -3510,6 +3664,7 @@ function closeShotModal() {
     state.pendingShotCallback = null;
     cb();
   }
+  saveGame();
 }
 
 // ===================================================
@@ -3583,7 +3738,7 @@ function showSpecialCard(card, afterCallback) {
     otherPlayers.forEach(p => {
       const el = document.createElement('div');
       el.className = 'special-redirect-opt';
-      el.innerHTML = `<span style="font-size:18px">${p.emoji || initials(p.name)}</span>${p.name}`;
+      el.innerHTML = `<span style="font-size:18px">${escapeHtml(p.emoji || initials(p.name))}</span>${escapeHtml(p.name)}`;
       el.onclick = () => {
         document.querySelectorAll('.special-redirect-opt').forEach(o => o.classList.remove('selected'));
         el.classList.add('selected');
@@ -3599,7 +3754,7 @@ function showSpecialCard(card, afterCallback) {
     btn.disabled = false;
     btn.textContent = '¡Entendido! →';
     state.doubleActive = true;
-    document.getElementById('special-card-desc').textContent = 'Eres el único jugador... ¡te toca el doble! 🔥';
+    document.getElementById('special-card-desc').textContent = 'Eres el único jugador... ¡te toca el doble, hasta 6 shots! 🔥';
   } else {
     redirectWrap.style.display = 'none';
     btn.disabled = false;
@@ -3655,6 +3810,7 @@ function dismissSpecialCard() {
 
 
 function openMenu() {
+  clearTriviaTimer();
   document.querySelectorAll('.menu-mode-btn').forEach(b => {
     b.classList.toggle('active-mode', b.dataset.mode === state.mode);
   });
@@ -3666,14 +3822,19 @@ function openMenu() {
 function closeMenu() {
   document.getElementById('menu-overlay').classList.remove('show');
   document.getElementById('menu-drawer').classList.remove('show');
+  if (state.mode === 'trivia' && !state.triviaAnswered && state.currentTrivia &&
+      document.getElementById('screen-game').classList.contains('active')) startTriviaTimer(true);
 }
 
 function switchMode(mode) {
+  if (!canStartMode(mode)) return;
   state.mode = mode;
   resetGameState(); 
   resetGameUI();
   closeMenu();
-  if (mode === 'todi') {
+  if (mode === 'basta') {
+    startBasta();
+  } else if (mode === 'todi') {
     startTodi();
   } else if (mode === 'vs') {
     startVs();
@@ -3687,7 +3848,7 @@ function switchMode(mode) {
   showToast('Modo: ' + {
     truth:'Verdad o Reto', who:'¿Quién en el grupo?',
     trivia:'Trivia', never:'Yo Nunca', todi:'TODI', vs:'Chicos VS Chicas',
-    impostor:'El Impostor'
+    impostor:'El Impostor', basta:'Basta'
   }[mode]);
 }
 
@@ -3702,6 +3863,7 @@ function switchMode(mode) {
 //  TODO su equipo toma shots.
 // ===================================================
 function startVs() {
+  if (!canStartMode('vs')) return;
   const teamM = state.players.filter(p => p.gender === 'm');
   const teamF = state.players.filter(p => p.gender === 'f');
   const teamO = state.players.filter(p => p.gender === 'o' || !p.gender);
@@ -3718,7 +3880,6 @@ function startVs() {
   state.vsTeamM = teamM.map(p => p.name);
   state.vsTeamF = teamF.map(p => p.name);
 
-  state.vsScoreM = 0; state.vsScoreF = 0;
   state.vsAttacking = 'm';
   state.vsPlayerM = 0; state.vsPlayerF = 0;
   state.vsRound = 0;
@@ -3728,6 +3889,7 @@ function startVs() {
   goTo('vs');
   vsRenderBanners();
   vsDrawQuestion();
+  saveGame();
 }
 
 function vsRenderBanners() {
@@ -3746,13 +3908,13 @@ function vsRenderBanners() {
   document.getElementById('vs-top-name').textContent = teamNames[topTeam];
   document.getElementById('vs-bot-name').textContent = teamNames[botTeam];
 
-  // scores — compute shots from state.shots per team
+  // Shots acumulados por equipo; no se otorgan puntos.
   const shotsM = state.vsTeamM.reduce((sum, n) => sum + (state.shots[n] || 0), 0);
   const shotsF = state.vsTeamF.reduce((sum, n) => sum + (state.shots[n] || 0), 0);
   document.getElementById('vs-top-score').textContent =
-    `${topTeam === 'm' ? state.vsScoreM : state.vsScoreF} pts · ${topTeam === 'm' ? shotsM : shotsF} 🥃`;
+    `${topTeam === 'm' ? shotsM : shotsF} shots 🥃`;
   document.getElementById('vs-bot-score').textContent =
-    `${botTeam === 'm' ? state.vsScoreM : state.vsScoreF} pts · ${botTeam === 'm' ? shotsM : shotsF} 🥃`;
+    `${botTeam === 'm' ? shotsM : shotsF} shots 🥃`;
 
   // player chips
   vsRenderChips('vs-top-players', topTeam);
@@ -3774,7 +3936,7 @@ function vsRenderChips(containerId, team) {
       <div class="vs-player-chip-avatar" style="background:${colors.bg};border:1.5px solid ${colors.border}">
         ${p && p.emoji ? p.emoji : initials(name)}
       </div>
-      <span>${name}</span>
+      <span>${escapeHtml(name)}</span>
     `;
     container.appendChild(chip);
   });
@@ -3827,10 +3989,7 @@ function vsAnswer(correct) {
   state.vsRound++;
 
   if (correct) {
-    // attacking team scores
-    if (isM) state.vsScoreM += 10;
-    else state.vsScoreF += 10;
-    showToast('¡Correcto! +10 pts 🎉');
+    showToast('¡Correcto! 🎉');
     vsNextTurn();
   } else {
     // attacking team drinks — everyone on that team takes a shot
@@ -3850,15 +4009,14 @@ function vsNextTurn() {
     return;
   }
 
-  // alternate team
-  state.vsAttacking = state.vsAttacking === 'm' ? 'f' : 'm';
-
-  // advance player index within team
+  // Avanza al jugador del equipo que acaba de responder.
   if (state.vsAttacking === 'm') {
     state.vsPlayerM = (state.vsPlayerM + 1) % state.vsTeamM.length;
   } else {
     state.vsPlayerF = (state.vsPlayerF + 1) % state.vsTeamF.length;
   }
+
+  state.vsAttacking = state.vsAttacking === 'm' ? 'f' : 'm';
 
   vsRenderBanners();
   saveGame();
@@ -3867,74 +4025,7 @@ function vsNextTurn() {
 
 function vsShowResults() {
   clearSave();
-  const mWon = state.vsScoreM > state.vsScoreF;
-  const tie  = state.vsScoreM === state.vsScoreF;
-
-  const sorted = [...state.players].sort((a,b) => b.score - a.score);
-  const list = document.getElementById('results-list');
-  list.innerHTML = '';
-
-  // winner banner at top
-  const winnerDiv = document.createElement('div');
-  winnerDiv.className = 'vs-result-winner';
-  winnerDiv.innerHTML = tie
-    ? `<div class="vs-result-winner-label">EMPATE ÉPICO</div>
-       <div class="vs-result-winner-team" style="background:linear-gradient(135deg,var(--vs-m-color),var(--vs-f-color));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">¡TODOS TOMAN!</div>`
-    : `<div class="vs-result-winner-label">GANADORES</div>
-       <div class="vs-result-winner-team" style="color:${mWon ? 'var(--vs-m-color)' : 'var(--vs-f-color)'}">${mWon ? '♂ CHICOS' : '♀ CHICAS'}</div>`;
-  list.appendChild(winnerDiv);
-
-  // score summary
-  const scoreDiv = document.createElement('div');
-  scoreDiv.style.cssText = 'display:flex;gap:12px;justify-content:center;margin-bottom:16px';
-  const shotsM = state.vsTeamM.reduce((sum, n) => sum + (state.shots[n] || 0), 0);
-  const shotsF = state.vsTeamF.reduce((sum, n) => sum + (state.shots[n] || 0), 0);
-  scoreDiv.innerHTML = `
-    <div style="flex:1;text-align:center;background:rgba(64,196,255,0.08);border:1px solid rgba(64,196,255,0.2);border-radius:12px;padding:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--vs-m-color)">${state.vsScoreM}</div>
-      <div style="font-size:11px;color:var(--text-dim)">pts Chicos</div>
-      <div style="font-size:11px;color:var(--neon-pink)">🥃 ${shotsM}</div>
-    </div>
-    <div style="flex:1;text-align:center;background:rgba(255,128,171,0.08);border:1px solid rgba(255,128,171,0.2);border-radius:12px;padding:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--vs-f-color)">${state.vsScoreF}</div>
-      <div style="font-size:11px;color:var(--text-dim)">pts Chicas</div>
-      <div style="font-size:11px;color:var(--neon-pink)">🥃 ${shotsF}</div>
-    </div>`;
-  list.appendChild(scoreDiv);
-
-  // individual shots
-  state.players.forEach(p => {
-    const [bg] = avatarColor(state.players.indexOf(p));
-    const colors = p.gender ? GENDER_COLORS[p.gender] : { border: bg, bg };
-    const shots = state.shots[p.name] || 0;
-    const div = document.createElement('div');
-    div.className = 'result-item';
-    div.innerHTML = `
-      <div style="width:34px;height:34px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};display:flex;align-items:center;justify-content:center;font-size:${p.emoji?'17px':'13px'};flex-shrink:0">${p.emoji || initials(p.name)}</div>
-      <div class="result-name">${p.name}<br><span style="font-size:10px;color:var(--text-dim)">${p.gender ? GENDER_LABELS[p.gender] : ''}</span></div>
-      <div style="font-size:11px;color:var(--neon-pink);text-align:right">${shots > 0 ? `🥃 ${shots} shot${shots>1?'s':''}` : '😇 0 shots'}</div>
-    `;
-    list.appendChild(div);
-  });
-
-  // if tie, everyone on both teams takes a shot
-  if (tie) {
-    let i = 0;
-    function tieShot() {
-      if (i >= state.players.length) { goTo('results'); spawnConfetti(); return; }
-      showShot(state.players[i++].name, '¡Empate! Todos toman 🥃', null, tieShot);
-    }
-    tieShot();
-  } else {
-    // losers take shots
-    const loserTeam = mWon ? state.vsTeamF : state.vsTeamM;
-    let i = 0;
-    function loserShot() {
-      if (i >= loserTeam.length) { goTo('results'); spawnConfetti(); return; }
-      showShot(loserTeam[i++], `Perdieron 😈 El equipo perdedor toma`, null, loserShot);
-    }
-    loserShot();
-  }
+  showResults();
 }
 
 function openMenuFromVs() {
@@ -3970,6 +4061,7 @@ function startTodi() {
   goTo('todi');
   renderTodiStrip();
   resetTodiCard();
+  saveGame();
 }
 
 function renderTodiStrip() {
@@ -3983,8 +4075,8 @@ function renderTodiStrip() {
     wrap.innerHTML = `
       <div class="strip-avatar${i === todiTurnIndex ? ' current' : ''}"
            style="background:${colors.bg};border-color:${i === todiTurnIndex ? '#fff' : colors.border};font-size:${p.emoji ? '18px' : '14px'}"
-      >${p.emoji || initials(p.name)}</div>
-      <div class="strip-name">${p.name}</div>
+      >${escapeHtml(p.emoji || initials(p.name))}</div>
+      <div class="strip-name">${escapeHtml(p.name)}</div>
     `;
     strip.appendChild(wrap);
   });
@@ -4024,8 +4116,9 @@ function spinTodi() {
     display.textContent = TODI_LETTERS[tick % 4];
   }, interval);
 
-  setTimeout(() => {
+  gameTimeout(() => {
     clearInterval(todiSpinInterval);
+    sfxSpinStop();
     sfxShotLand();
     const landed = TODI_LETTERS[Math.floor(Math.random() * 4)];
     display.textContent = landed;
@@ -4045,7 +4138,7 @@ function showTodiResult(letter) {
   `;
 
   if (letter === 'T') {
-    html += `<div class="todi-result-who">${currentPlayer.name} 🥃</div>`;
+    html += `<div class="todi-result-who">${escapeHtml(currentPlayer.name)} 🥃</div>`;
   } else {
     html += `<div class="todi-result-who">🥃</div>`;
   }
@@ -4060,17 +4153,19 @@ function showTodiResult(letter) {
 
 function todiNext() {
   todiTurnCount++;
+  state.challengesDone = todiTurnCount;
   // end game after maxChallenges turns
   if (state.maxChallenges > 0 && todiTurnCount >= state.maxChallenges) {
     clearSave();
-    // give everyone equal score for todi (no trivia scoring)
-    state.players.forEach(p => { p.score = 10; });
     showResults();
     return;
   }
   todiTurnIndex = (todiTurnIndex + 1) % state.players.length;
+  state.currentPlayerIndex = todiTurnIndex;
+  state.round = Math.floor(todiTurnCount / state.players.length) + 1;
   renderTodiStrip();
   resetTodiCard();
+  saveGame();
   // scroll strip to current
   const strip = document.getElementById('todi-players-strip');
   const avatars = strip.querySelectorAll('.strip-player');
@@ -4094,6 +4189,7 @@ function menuGoModes() {
 }
 
 function menuGoHome() {
+  saveGame();
   closeMenu();
   goTo('home');
 }
@@ -4103,28 +4199,24 @@ function menuGoHome() {
 // ===================================================
 // ===================================================
 //  PANTALLA DE RESULTADOS
-//  Ordena los jugadores por puntaje (mayor → menor) y
-//  genera el ranking final con shots tomados por cada uno.
+//  Muestra a los jugadores en el orden registrado y sus shots acumulados.
 //  Lanza el confetti y la fanfarria de victoria.
 // ===================================================
 function showResults() {
-  const sorted = [...state.players].sort((a,b) => b.score - a.score);
+  const participants = state.players;
   const list = document.getElementById('results-list');
   list.innerHTML = '';
-  sorted.forEach((p, i) => {
+  participants.forEach(p => {
     const [bg] = avatarColor(state.players.indexOf(p));
     const colors = p.gender ? GENDER_COLORS[p.gender] : { border: bg, bg };
     const shots = state.shots[p.name] || 0;
-    const medals = ['🥇','🥈','🥉'];
     const div = document.createElement('div');
     div.className = 'result-item';
     div.innerHTML = `
-      <div class="result-rank">${medals[i] || i+1}</div>
-      <div style="width:36px;height:36px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};display:flex;align-items:center;justify-content:center;font-size:${p.emoji ? '18px' : '14px'};flex-shrink:0">${p.emoji || initials(p.name)}</div>
-      <div class="result-name">${p.name}<br><span style="font-size:10px;color:var(--text-dim);font-weight:400">${p.gender ? GENDER_LABELS[p.gender] : ''}</span></div>
+      <div style="width:36px;height:36px;border-radius:50%;background:${colors.bg};border:2px solid ${colors.border};display:flex;align-items:center;justify-content:center;font-size:${p.emoji ? '18px' : '14px'};flex-shrink:0">${escapeHtml(p.emoji || initials(p.name))}</div>
+      <div class="result-name">${escapeHtml(p.name)}<br><span style="font-size:10px;color:var(--text-dim);font-weight:400">${p.gender ? GENDER_LABELS[p.gender] : ''}</span></div>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:2px">
-        <div class="result-score">${p.score} pts</div>
-        ${shots > 0 ? `<div style="font-size:11px;color:var(--neon-pink)">🥃 ${shots} shot${shots>1?'s':''}</div>` : ''}
+        <div style="font-size:11px;color:var(--neon-pink)">🥃 ${shots} shot${shots === 1 ? '' : 's'}</div>
       </div>
     `;
     list.appendChild(div);
@@ -4261,11 +4353,11 @@ function impostorPickWord() {
   return picked;
 }
 
-function impostorNewRound() {
+function impostorNewRound(restoring = false) {
   const n = state.players.length;
 
   // pick word
-  const wordObj = impostorPickWord();
+  const wordObj = restoring ? state.impostorWord : impostorPickWord();
   state.impostorWord = wordObj;
 
   // assign impostors: 1 if ≤4 players, 2 if ≥5 players
@@ -4276,11 +4368,11 @@ function impostorNewRound() {
     const j = Math.floor(Math.random() * (i + 1));
     [indices[i], indices[j]] = [indices[j], indices[i]];
   }
-  state.impostorImpostors = indices.slice(0, numImpostors);
+  if (!restoring) state.impostorImpostors = indices.slice(0, numImpostors);
   state.impostorHints = [];
   state.impostorHintIndex = 0;
   state.impostorVoterIndex = 0;
-  state.impostorVotes = {};
+  state.impostorVotes = Object.create(null);
 
   // show phase badge
   document.getElementById('impostor-phase-badge').textContent = 'RONDA DE PISTAS';
@@ -4291,6 +4383,7 @@ function impostorNewRound() {
 
   // show hint phase, hide others
   document.getElementById('impostor-hint-phase').classList.add('visible');
+  document.getElementById('impostor-hint-phase').style.display = 'flex';
   document.getElementById('impostor-vote-phase').style.display = 'none';
   document.getElementById('impostor-reveal-phase').style.display = 'none';
   document.getElementById('impostor-hints-done').innerHTML = '';
@@ -4313,9 +4406,11 @@ function impostorNewRound() {
 
   // start role reveal sequence
   impostorShowRoleFor(0);
+  saveGame();
 }
 
 function impostorShowRoleFor(idx) {
+  document.getElementById('impostor-role-btn').disabled = false;
   /*
    * PASO 1 — Pantalla de llamado
    * Muestra el nombre del jugador para que sepa que le toca.
@@ -4471,6 +4566,9 @@ function impostorRoleNext() {
    */
   const overlay = document.getElementById('impostor-role-overlay');
   const idx     = parseInt(overlay.dataset.revealIdx);
+  const btn = document.getElementById('impostor-role-btn');
+  if (btn.disabled) return;
+  btn.disabled = true;
 
   // Limpiar contenido del rol para que no se vea durante el llamado al siguiente
   document.getElementById('impostor-role-word').innerHTML = '';
@@ -4478,11 +4576,11 @@ function impostorRoleNext() {
   const next = idx + 1;
   if (next < state.players.length) {
     // Hay más jugadores — mostrar llamado del siguiente
-    setTimeout(() => impostorShowRoleFor(next), 300);
+    gameTimeout(() => impostorShowRoleFor(next), 300);
   } else {
     // Todos vieron su rol — cerrar overlay y arrancar ronda de pistas
     overlay.classList.remove('show');
-    setTimeout(() => impostorStartHintRound(), 300);
+    gameTimeout(() => impostorStartHintRound(), 300);
   }
 }
 
@@ -4535,9 +4633,9 @@ function impostorNextHint() {
   item.className = 'impostor-hint-item';
   item.innerHTML = `
     <div style="width:28px;height:28px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0">
-      ${player.emoji || initials(player.name)}
+      ${escapeHtml(player.emoji || initials(player.name))}
     </div>
-    <strong>${player.name}</strong>
+    <strong>${escapeHtml(player.name)}</strong>
     <span>dio su pista ✓</span>
   `;
   done.appendChild(item);
@@ -4582,9 +4680,9 @@ function impostorShowVoter() {
     opt.className = 'impostor-vote-opt';
     opt.innerHTML = `
       <div style="width:32px;height:32px;border-radius:50%;background:${bg};display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0">
-        ${p.emoji || initials(p.name)}
+        ${escapeHtml(p.emoji || initials(p.name))}
       </div>
-      <span>${p.name}</span>
+      <span>${escapeHtml(p.name)}</span>
     `;
     opt.onclick = () => {
       document.querySelectorAll('.impostor-vote-opt').forEach(o => o.classList.remove('selected'));
@@ -4619,7 +4717,7 @@ function impostorReveal() {
   document.getElementById('impostor-phase-badge').textContent = 'RESULTADO';
 
   // tally votes
-  const tally = {}; // name → count
+  const tally = Object.create(null); // name → count
   state.players.forEach(p => { tally[p.name] = 0; });
   Object.values(state.impostorVotes).forEach(votedFor => {
     tally[votedFor] = (tally[votedFor] || 0) + 1;
@@ -4648,7 +4746,7 @@ function impostorReveal() {
   impostorNames.forEach(name => {
     const chip = document.createElement('div');
     chip.className = 'impostor-reveal-chip';
-    chip.innerHTML = `🕵️ ${name}`;
+    chip.textContent = `🕵️ ${name}`;
     chipsEl.appendChild(chip);
   });
 
@@ -4659,7 +4757,7 @@ function impostorReveal() {
   } else if (caught) {
     verdictEl.className = 'impostor-verdict caught';
     verdictEl.textContent = '¡ATRAPADO!';
-    const shotCount = Math.max(2, Math.floor(state.players.length / 2));
+    const shotCount = Math.min(MAX_SHOTS, Math.max(2, Math.floor(state.players.length / 2)));
     subEl.textContent = `${impostorNames.join(' y ')} ${impostorNames.length > 1 ? 'son' : 'es'} el impostor. ${impostorNames.length > 1 ? 'Toman' : 'Toma'} ${shotCount} shots de castigo.`;
   } else {
     verdictEl.className = 'impostor-verdict escaped';
@@ -4678,7 +4776,7 @@ function impostorReveal() {
     const pct = state.players.length > 1 ? Math.round((votes / (state.players.length - 1)) * 100) : 0;
     const isImp = impostorNames.includes(name);
     row.innerHTML = `
-      <span style="min-width:80px;font-weight:600;color:${isImp ? '#ff6b35' : 'var(--text)'}">${name}${isImp ? ' 🕵️' : ''}</span>
+      <span style="min-width:80px;font-weight:600;color:${isImp ? '#ff6b35' : 'var(--text)'}">${escapeHtml(name)}${isImp ? ' 🕵️' : ''}</span>
       <div class="impostor-vote-bar"><div class="impostor-vote-bar-fill" style="width:0%" data-pct="${pct}"></div></div>
       <span style="font-size:12px;color:var(--text-dim);min-width:36px;text-align:right">${votes} voto${votes !== 1 ? 's' : ''}</span>
     `;
@@ -4698,7 +4796,7 @@ function impostorReveal() {
   // trigger shots
   if (!isTie) {
     if (caught) {
-      const shotCount = Math.max(2, Math.floor(state.players.length / 2));
+      const shotCount = Math.min(MAX_SHOTS, Math.max(2, Math.floor(state.players.length / 2)));
       let i = 0;
       function nextImpostorShot() {
         if (i >= impostorNames.length) return;
@@ -4707,7 +4805,7 @@ function impostorReveal() {
           nextImpostorShot();
         });
       }
-      setTimeout(nextImpostorShot, 1200);
+      gameTimeout(nextImpostorShot, 1200);
     } else {
       // innocents drink
       const innocents = state.players.filter(p => !impostorNames.includes(p.name));
@@ -4719,12 +4817,14 @@ function impostorReveal() {
           nextInnocentShot();
         });
       }
-      setTimeout(nextInnocentShot, 1200);
+      gameTimeout(nextInnocentShot, 1200);
     }
   }
 }
 
 function impostorNextRound() {
+  cancelGameAnimations();
+  resetGameUI();
   sfxTap();
   impostorNewRound();
 }
@@ -4733,13 +4833,14 @@ function impostorNextRound() {
 // ===================================================
 //  COVER FLOW CAROUSEL
 // ===================================================
-const CF_MODES = ['truth','trivia','never','who','todi','vs','impostor'];
+const CF_MODES = ['truth','trivia','never','who','todi','vs','impostor','basta'];
 let cfIndex = 0;
 let cfW = 0;        // active card width 
 let cfH = 0;        // active card height
 let cfTouchX = 0;
 let cfDragX  = 0;
 let cfDragging = false;
+let cfSuppressClickUntil = 0;
 
 // Layout constants
 const CF_SIDE_SCALE  = 0.72;   // side cards scale
@@ -4829,7 +4930,7 @@ function cfRender(animate) {
     card.style.transform  = `translateX(${tx}px) scale(${scale}) perspective(900px) rotateY(${rotY}deg)`;
     card.style.opacity    = opacity;
     card.style.zIndex     = zIndex;
-    card.style.pointerEvents = offset === 0 ? 'auto' : 'none';
+    card.style.pointerEvents = absOff <= 1 ? 'auto' : 'none';
 
     // active state class
     card.classList.toggle('cf-active', offset === 0);
@@ -4859,7 +4960,11 @@ function cfGoTo(i, animate) {
 
 function cfPrev() { cfGoTo(cfIndex - 1); }
 function cfNext() { cfGoTo(cfIndex + 1); }
-function cfSelect(i) { cfGoTo(i); }
+function cfSelect(i) {
+  // El navegador emite un click después de soltar un arrastre.
+  if (performance.now() < cfSuppressClickUntil) return;
+  cfGoTo(i);
+}
 
 // ===================================================
 //  COVER FLOW — INICIALIZACIÓN
@@ -4883,6 +4988,7 @@ function cfInit() {
     cfDragX = e.touches[0].clientX - cfTouchX;
   }, { passive: true });
   stage.addEventListener('touchend', () => {
+    if (Math.abs(cfDragX) > 45) cfSuppressClickUntil = performance.now() + 500;
     if (cfDragX < -45) cfNext();
     else if (cfDragX > 45) cfPrev();
     cfDragX = 0;
@@ -4903,6 +5009,7 @@ function cfInit() {
     if (!cfDragging) return;
     cfDragging = false;
     stage.style.cursor = '';
+    if (Math.abs(cfDragX) > 45) cfSuppressClickUntil = performance.now() + 500;
     if (cfDragX < -45) cfNext();
     else if (cfDragX > 45) cfPrev();
     cfDragX = 0;
@@ -5204,10 +5311,20 @@ function initApp() {
 }
 
 function initDesktopLayout() {
-  if (window.innerWidth < 900) return;
-
   const screen = document.getElementById('screen-modes');
   if (!screen) return;
+
+  if (window.innerWidth < 900) {
+    const main = screen.querySelector('.modes-main-panel');
+    const side = screen.querySelector('.modes-side-panel');
+    if (main && side) {
+      [...main.children].forEach(child => screen.appendChild(child));
+      [...side.children].slice(1).forEach(child => screen.appendChild(child));
+      main.remove();
+      side.remove();
+    }
+    return;
+  }
 
   // Already split — skip
   if (screen.querySelector('.modes-main-panel')) return;
@@ -5255,10 +5372,13 @@ window.addEventListener('resize', () => {
     setTimeout(() => { initDesktopLayout(); cfLayout(); cfRender(false); }, 50);
   } else if (!isDesktop && _lastWasDesktop) {
     _lastWasDesktop = false;
+    initDesktopLayout();
+    cfLayout();
+    cfRender(false);
   }
 });
 
-function startTriviaTimer() {
+function startTriviaTimer(resuming = false) {
   clearTriviaTimer();
 
   const wrap  = document.getElementById('trivia-timer-wrap');
@@ -5270,9 +5390,12 @@ function startTriviaTimer() {
   fill.style.width = '100%';
   fill.style.background = 'var(--neon-cyan)';
   label.style.color = 'var(--text-dim)';
-  label.textContent = TRIVIA_TIMER_SECONDS;
+  const seconds = resuming ? (state.triviaRemaining || TRIVIA_TIMER_SECONDS) : TRIVIA_TIMER_SECONDS;
+  state.triviaRemaining = seconds;
+  label.textContent = seconds;
+  fill.style.width = (seconds / TRIVIA_TIMER_SECONDS * 100) + '%';
 
-  let remaining = TRIVIA_TIMER_SECONDS;
+  let remaining = seconds;
 
   // pequeño delay para que el CSS de transición arranque bien
   setTimeout(() => {
@@ -5281,6 +5404,7 @@ function startTriviaTimer() {
 
   triviaTimerInterval = setInterval(() => {
     remaining--;
+    state.triviaRemaining = remaining;
     label.textContent = remaining;
 
     // barra proporcional
@@ -5330,7 +5454,7 @@ function triviaTimeOut() {
 
   const currentPlayer = state.players[state.currentPlayerIndex];
 
-  setTimeout(() => {
+  gameTimeout(() => {
     const proceed = () => {
       state.challengesDone++;
       if (state.challengesDone >= state.maxChallenges) { clearSave(); showResults(); return; }
@@ -5385,6 +5509,8 @@ function chooseType(type) {
 
   // guardar el tipo elegido para que resolveAndNext sepa cuál fue
   state.currentTruthDareType = type;
+  state.activeChallenge = {type, value: text};
+  saveGame();
 }
 
 initApp();

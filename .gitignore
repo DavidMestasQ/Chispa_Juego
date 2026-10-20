@@ -1,0 +1,9 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.zip
+
+# Capturas y resultados generados al ejecutar las pruebas locales.
+tests/*.png
+tests/results*.json

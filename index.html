@@ -9,6 +9,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="basta.css">
 </head>
 <body>
 
@@ -28,6 +29,7 @@
       <span class="home-mode-chip">⚔️ VS</span>
       <span class="home-mode-chip">🍹 Yo Nunca</span>
       <span class="home-mode-chip">🎰 TODI</span>
+      <span class="home-mode-chip">🔤 Basta</span>
     </div>
   </div>
 
@@ -44,7 +46,7 @@
 <!-- ===================== PLAYERS ===================== -->
 <div id="screen-players" class="screen">
   <div class="section-title" style="margin-top:8px">Jugadores</div>
-  <div class="section-subtitle">Agrega entre 2 y 10 jugadores</div>
+  <div class="section-subtitle">Agrega entre 2 y 20 jugadores</div>
 
   <div id="players-list" class="players-list"></div>
 
@@ -65,7 +67,7 @@
 
   <div class="modes-screen-header">
     <div class="modes-screen-title">ELIGE TU MODO</div>
-    <div class="modes-screen-sub">7 modos disponibles</div>
+    <div class="modes-screen-sub">8 modos disponibles</div>
   </div>
 
   <div class="coverflow-scene" id="coverflow-scene">
@@ -88,7 +90,7 @@
       <div class="mode-card-inner">
         <div class="mode-card-top">
           <div class="mode-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
-          <div class="mode-card-tag" style="color:#e4eb0a">Haber cuanto sabes</div>
+          <div class="mode-card-tag" style="color:#e4eb0a">A ver cuánto sabes</div>
         </div>
         <div class="mode-name">Trivia</div>
         <div class="mode-desc">Acierta para mandar a alguien a tomar, falla y tomas tú.</div>
@@ -154,6 +156,18 @@
         <div class="mode-desc">Uno no conoce la palabra. ¿Puedes atraparlo?</div>
       </div>
     </div>
+    <div class="mode-card" data-mode="basta" onclick="cfSelect(7)">
+      <div class="mode-card-bg"></div>
+      <div class="mode-card-orb"></div>
+      <div class="mode-card-inner">
+        <div class="mode-card-top">
+          <div class="mode-icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m7 16 5-9 5 9M9 13h6"/></svg></div>
+          <div class="mode-card-tag" style="color:var(--basta-color)">Una letra, tú eliges el tiempo</div>
+        </div>
+        <div class="mode-name">Basta</div>
+        <div class="mode-desc">Elige una letra, di tu respuesta y pasa el turno antes de que se acabe el tiempo.</div>
+      </div>
+    </div>
     </div>
 
     <div class="cf-nav">
@@ -166,6 +180,7 @@
     <div class="cf-dot" onclick="cfGoTo(4)"></div>
     <div class="cf-dot" onclick="cfGoTo(5)"></div>
     <div class="cf-dot" onclick="cfGoTo(6)"></div>
+    <div class="cf-dot" onclick="cfGoTo(7)"></div>
       </div>
       <button class="cf-btn" id="cf-next" onclick="cfNext()">&#8594;</button>
     </div>
@@ -207,7 +222,7 @@
     </div>
   </div>
 
-  <div class="players-strip" id="players-strip"></div>
+  <div class="players-strip" id="players-strip" tabindex="0" role="region" aria-label="Jugadores, desplázate horizontalmente"></div>
 
   <div class="turn-info">
     <div class="turn-label">Turno de</div>
@@ -215,28 +230,28 @@
   </div>
 
   <div id="trivia-timer-wrap" style="display:none;width:100%;max-width:340px;margin-bottom:8px">
-      <div class="trivia-timer-bar-bg">
-        <div class="trivia-timer-bar-fill" id="trivia-timer-fill"></div>
-      </div>
-      <div class="trivia-timer-label" id="trivia-timer-label">10</div>
+    <div class="trivia-timer-bar-bg">
+      <div class="trivia-timer-bar-fill" id="trivia-timer-fill"></div>
+    </div>
+    <div class="trivia-timer-label" id="trivia-timer-label">10</div>
   </div>
 
   <div id="truth-dare-choice" style="display:none;width:100%;max-width:340px;flex-direction:column;align-items:center;gap:12px">
-    <div style="font-size:11px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">¿Qué eliges?</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
-      <button class="choice-btn-truth" onclick="chooseType('truth')">
-        <div style="font-size:30px">🤫</div>
-        <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--truth-color)">VERDAD</div>
-        <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Responde con honestidad</div>
-      </button>
-      <button class="choice-btn-dare" onclick="chooseType('dare')">
-        <div style="font-size:30px">🔥</div>
-        <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--dare-color)">RETO</div>
-        <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Atrévete a hacerlo</div>
-      </button>
-    </div>
+  <div style="font-size:11px;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">¿Qué eliges?</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%">
+    <button class="choice-btn-truth" onclick="chooseType('truth')">
+      <div style="font-size:30px">🤫</div>
+      <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--truth-color)">VERDAD</div>
+      <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Responde con honestidad</div>
+    </button>
+    <button class="choice-btn-dare" onclick="chooseType('dare')">
+      <div style="font-size:30px">🔥</div>
+      <div style="font-size:14px;font-weight:700;letter-spacing:1px;color:var(--dare-color)">RETO</div>
+      <div style="font-size:11px;color:var(--text-dim);line-height:1.4">Atrévete a hacerlo</div>
+    </button>
   </div>
-  
+</div>
+
   <div class="card-area">
     <div id="challenge-card" class="challenge-card card-truth">
       <div class="card-back-glow"></div>
@@ -258,8 +273,8 @@
 
 <!-- ===================== RESULTS ===================== -->
 <div id="screen-results" class="screen">
-  <div class="results-trophy">🏆</div>
-  <div class="results-title">¡Fin del Juego!</div>
+  <div class="results-trophy">🎉</div>
+  <div class="results-title">Resumen de la partida</div>
   <div id="results-list" class="results-list"></div>
   <div class="max-400" style="display:flex; flex-direction:column; gap:10px; margin-top:8px;">
     <button class="btn btn-primary" onclick="playAgain()">Jugar de Nuevo</button>
@@ -278,7 +293,7 @@
     </button>
   </div>
 
-  <div class="todi-players-strip" id="todi-players-strip"></div>
+  <div class="todi-players-strip" id="todi-players-strip" tabindex="0" role="region" aria-label="Jugadores de TODI, desplázate horizontalmente"></div>
 
   <div class="todi-center">
     <div>
@@ -323,7 +338,7 @@
     <div class="vs-team-banner team-m" id="vs-top-banner">
       <div class="vs-team-label">Equipo</div>
       <div class="vs-team-name" id="vs-top-name">♂ Chicos</div>
-      <div class="vs-score-badge" id="vs-top-score">0 pts · 0 🥃</div>
+      <div class="vs-score-badge" id="vs-top-score">0 shots 🥃</div>
       <div class="vs-players-row" id="vs-top-players"></div>
     </div>
 
@@ -336,7 +351,7 @@
     <div class="vs-team-banner team-f" id="vs-bot-banner">
       <div class="vs-team-label">Equipo</div>
       <div class="vs-team-name" id="vs-bot-name">♀ Chicas</div>
-      <div class="vs-score-badge" id="vs-bot-score">0 pts · 0 🥃</div>
+      <div class="vs-score-badge" id="vs-bot-score">0 shots 🥃</div>
       <div class="vs-players-row" id="vs-bot-players"></div>
     </div>
 
@@ -363,7 +378,7 @@
     <!-- redirect: pick target -->
     <div id="special-redirect-wrap" style="display:none;width:100%">
       <div class="special-redirect-label">¿A quién le mandás el shot?</div>
-      <div class="special-redirect-options" id="special-redirect-options"></div>
+      <div class="special-redirect-options" id="special-redirect-options" tabindex="0" role="region" aria-label="Destinatarios del castigo, desplázate para ver a todos"></div>
     </div>
     <button class="btn btn-primary special-card-btn" id="special-card-btn" onclick="dismissSpecialCard()">
       ¡Entendido! →
@@ -380,7 +395,7 @@
       <div class="who-voter-name" id="trivia-winner-name"></div>
       <div class="who-voter-hint">Elige quién toma por ti 😈</div>
     </div>
-    <div class="who-secret-options" id="trivia-pick-targets"></div>
+    <div class="who-secret-options" id="trivia-pick-targets" tabindex="0" role="region" aria-label="Destinatarios de Trivia, desplázate para ver a todos"></div>
     <button class="btn btn-primary who-confirm-btn" id="trivia-pick-confirm" onclick="confirmTriviaPick()">
       Que tome él/ella →
     </button>
@@ -401,7 +416,7 @@
       <div class="who-progress-fill" id="who-progress-fill" style="width:0%"></div>
     </div>
 
-    <div class="who-secret-options" id="who-secret-options"></div>
+    <div class="who-secret-options" id="who-secret-options" tabindex="0" role="region" aria-label="Opciones de votación, desplázate para ver a todos"></div>
 
     <button class="btn btn-primary who-confirm-btn" id="who-confirm-vote-btn" onclick="confirmWhoVote()">
       Votar →
@@ -433,7 +448,7 @@
   </div>
 
   <!-- BODY — zona scrollable -->
-  <div class="menu-body">
+  <div class="menu-body" tabindex="0" role="region" aria-label="Opciones del menú, desplázate para ver más">
 
     <div class="menu-section-label">Cambiar Modo</div>
     <div class="menu-modes-grid" id="menu-modes-grid">
@@ -465,11 +480,15 @@
         <div class="menu-mode-icon">🕵️</div>
         <div class="menu-mode-name">Impostor</div>
       </div>
+      <div class="menu-mode-btn" data-mode="basta" onclick="switchMode('basta')" style="color:var(--basta-color)">
+        <div class="menu-mode-icon">🔤</div>
+        <div class="menu-mode-name">Basta</div>
+      </div>
     </div>
 
     <div class="menu-divider"></div>
     <div class="menu-section-label">Jugadores en partida</div>
-    <div class="menu-players-list" id="menu-players-list"></div>
+    <div class="menu-players-list" id="menu-players-list" tabindex="0" role="region" aria-label="Jugadores en partida, desplázate para ver a todos"></div>
     <button class="menu-add-player-btn" onclick="menuAddPlayer()">+ Agregar jugador</button>
 
     <div class="menu-divider"></div>
@@ -509,6 +528,7 @@
     <div class="shot-title">¡SHOT!</div>
     <div class="shot-player" id="shot-player-name">Jugador</div>
     <div class="shot-reason" id="shot-reason">Pasó el reto</div>
+    <div class="shot-turn-context" id="shot-turn-context">turno de —</div>
 
     <div class="shot-roulette-wrap">
       <div class="shot-roulette-ring"></div>
@@ -531,6 +551,9 @@
   <div class="impostor-header">
     <div class="impostor-title">🕵️ IMPOSTOR</div>
     <div class="impostor-round-badge" id="impostor-phase-badge">FASE 1</div>
+    <button class="btn btn-secondary btn-icon" onclick="openMenu()" aria-label="Abrir menú">
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </button>
   </div>
 
   <!-- PHASE: hint round -->
@@ -554,7 +577,7 @@
     <div class="impostor-voter-label">¿Quién vota?</div>
     <div class="impostor-voter-name" id="impostor-voter-name">—</div>
     <div style="font-size:13px;color:var(--text-dim);text-align:center;margin-bottom:4px">¿Quién crees que es el impostor?</div>
-    <div class="impostor-vote-opts" id="impostor-vote-opts"></div>
+    <div class="impostor-vote-opts" id="impostor-vote-opts" tabindex="0" role="region" aria-label="Sospechosos, desplázate para ver a todos"></div>
     <button class="btn btn-primary" id="impostor-vote-confirm-btn" onclick="impostorConfirmVote()" disabled style="margin-top:8px">Confirmar voto →</button>
   </div>
 
@@ -572,6 +595,71 @@
     </div>
   </div>
 
+</div>
+
+<!-- ===================== BASTA ===================== -->
+<div id="screen-basta" class="screen">
+  <div class="basta-header">
+    <div class="basta-logo">BASTA<span>De la A a la Z</span></div>
+    <button class="btn btn-secondary btn-icon" onclick="openMenu()" aria-label="Abrir menú de Basta">
+      <div class="hamburger"><span></span><span></span><span></span></div>
+    </button>
+  </div>
+  <section id="basta-setup" class="basta-setup" aria-labelledby="basta-setup-title">
+    <h2 id="basta-setup-title">¿De qué hablamos?</h2>
+    <p>Un mismo tema para toda la ronda. Cada jugador tiene <span id="basta-duration-description">30</span> segundos para elegir una letra, responder en voz alta y pulsar el centro.</p>
+    <label for="basta-category-input">Tema o categoría</label>
+    <input id="basta-category-input" class="input-field" maxlength="80" placeholder="Por ejemplo: animales" oninput="bastaEditCategory()" onkeydown="if(event.key==='Enter') bastaBegin()">
+    <button class="btn btn-secondary" id="basta-random-category" onclick="bastaRandomCategory()">🎲 Elegir otro tema al azar</button>
+    <fieldset class="basta-duration">
+      <legend>Tiempo por jugador</legend>
+      <div class="basta-duration-options">
+        <label><input type="radio" name="basta-duration" value="15" onchange="bastaSetTurnSeconds(Number(this.value))"><span>15 seg</span></label>
+        <label><input type="radio" name="basta-duration" value="30" checked onchange="bastaSetTurnSeconds(Number(this.value))"><span>30 seg</span></label>
+        <label><input type="radio" name="basta-duration" value="45" onchange="bastaSetTurnSeconds(Number(this.value))"><span>45 seg</span></label>
+      </div>
+    </fieldset>
+    <button class="btn btn-primary" id="basta-start" onclick="bastaBegin()">Comenzar ronda</button>
+    <p class="basta-note">Las respuestas las valida el grupo. Si alguien se equivoca, pulsa «Respuesta incorrecta» durante su turno.</p>
+  </section>
+  <section id="basta-play" class="basta-play" hidden aria-label="Ronda de Basta">
+    <div class="basta-round-info">
+      <div class="basta-topic">
+      <span class="basta-topic-label">La categoría es</span>
+      <div id="basta-category" class="basta-category"></div>
+      <div class="basta-turn">Turno de <strong id="basta-player"></strong></div>
+      </div>
+      <div class="basta-clock">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l3 2M9 2h6M12 2v3"/></svg>
+        <span id="basta-timer" class="basta-time" role="timer" aria-label="30 segundos restantes">30</span><span class="basta-clock-unit">seg</span>
+      </div>
+    </div>
+    <div class="basta-steps" aria-label="Elige una letra, responde y pulsa el centro">
+      <span class="basta-step-choose"><b>1</b> Elige</span><span aria-hidden="true">›</span>
+      <span><b>2</b> Responde</span><span aria-hidden="true">›</span>
+      <span class="basta-step-pass"><b>3</b> Pulsa</span>
+    </div>
+    <div id="basta-wheel" class="basta-wheel">
+      <div id="basta-letters" role="group" aria-label="Letras disponibles de la A a la Z"></div>
+      <button id="basta-pass" class="basta-center" onclick="bastaPass()" disabled>
+        <svg class="basta-tap-icon" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 18V9a2 2 0 0 1 4 0v7l2-2 7 3v7a5 5 0 0 1-5 5h-3a5 5 0 0 1-4-2l-6-8a2 2 0 0 1 3-2l2 1Z"/><path d="M14 2V0M6 5 4 3M22 5l2-2"/></svg>
+        <span class="basta-buzzer-title" aria-hidden="true">¡BASTA!</span>
+        <span id="basta-pass-label">Elige una letra</span>
+        <span id="basta-selected" class="basta-selected">para activar el botón</span>
+      </button>
+    </div>
+    <div class="basta-progress"><span id="basta-remaining">26 letras disponibles</span><span id="basta-turn-duration">30 s por turno</span></div>
+    <p id="basta-turn-hint" class="basta-note">Elige una letra disponible. El reloj sigue corriendo.</p>
+    <button class="btn btn-secondary basta-error" id="basta-wrong" onclick="bastaWrong()">Respuesta incorrecta · terminar ronda</button>
+  </section>
+  <section id="basta-result" class="basta-result" hidden aria-live="polite">
+    <div class="basta-result-icon" id="basta-result-icon">⏱️</div>
+    <h2 id="basta-result-title"></h2>
+    <p id="basta-result-reason"></p>
+    <p id="basta-result-summary" class="basta-note"></p>
+    <button class="btn btn-primary" id="basta-new-round" onclick="startBasta()">Nueva ronda</button>
+    <button class="btn btn-ghost" onclick="goTo('modes')">Cambiar modo</button>
+  </section>
 </div>
 
 <!-- TOAST -->
@@ -637,6 +725,7 @@
 
 <!-- IMPOSTOR ROLE OVERLAY -->
 <div class="impostor-role-overlay" id="impostor-role-overlay">
+  <button class="btn btn-secondary impostor-role-exit" onclick="goTo('modes')">← Cambiar modo</button>
 
   <!-- PASO 1: Llamado al jugador — todos pueden ver esta pantalla -->
   <div class="impostor-role-card" id="impostor-call-card">
@@ -669,6 +758,7 @@
 
 </div>
 
+<script src="basta.js"></script>
 <script src="script.js"></script>
 
 </body>
